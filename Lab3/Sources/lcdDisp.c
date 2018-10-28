@@ -20,7 +20,7 @@ Description: Initialised the LCD hardware by
 void initLCD(void)
 {
   // complete this function
-
+  lcd_init();
 }
 
 /*--------------------------
@@ -39,5 +39,7 @@ Description: Prints a string on the display on one of the
 void printLCDStr(char *str, byte lineno)
 {
 	// Complete this function
-  
+  clear_lcd();
+  type_lcd(str);
+  //?set_lcd_addr
 }
