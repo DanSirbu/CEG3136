@@ -69,8 +69,8 @@ void segDisp(void)
 	// Complete this function
 	int i;
 	for(i=0; i<4; i++) {
-    PTP = ~(1 << i);
-    PORTB = NUM_TO_7_SEG_TBL[CHAR_TO_NUM(dispChars[i])];
-    delayms(1);
+        PTP = 0;//~(1 << i);
+        PORTB = NUM_TO_7_SEG_TBL[CHAR_TO_NUM(dispChars[i])];
+        delayms(100);
   } 
 }
