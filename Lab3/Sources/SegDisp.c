@@ -13,8 +13,8 @@ Description:  Segment Display Module
 //Convert character to 7 segment display version
 #define CHAR_TO_NUM(a) (a - 0x30)
 
-static u_int8_t dispChars[NUM_7_SEG_DISPLAYS];
-static u_int8_t NUM_TO_7_SEG_TBL[10] = { 0x7E, 0x6, 0x5B, 0x4F, 0x66, 0x7E, 0x7E, 0x7E, 0x7E, 0x7E }; //TODO
+static unsigned char dispChars[NUM_7_SEG_DISPLAYS];
+static unsigned char NUM_TO_7_SEG_TBL[10] = { 0x7E, 0x6, 0x5B, 0x4F, 0x66, 0x7E, 0x7E, 0x7E, 0x7E, 0x7E }; //TODO
 /*---------------------------------------------
 Function: initDisp
 Description: initializes hardware for the 
@@ -67,9 +67,9 @@ Description: Displays the codes in the code display table
 void segDisp(void) 
 {
 	// Complete this function
-    for(int x = 0; x < 4; x++) {
-        PTP = ~(1 << x);
-        PORTB = NUM_TO_7_SEG_TBL[CHAR_TO_NUM(dispChars[x])];
-        delayms(1);
-    }
+	/*for(int x=0; x<4; x++) {
+    PTP = ~(1 << x);
+    PORTB = NUM_TO_7_SEG_TBL[CHAR_TO_NUM(dispChars[x])];
+    delayms(1);
+  } */
 }

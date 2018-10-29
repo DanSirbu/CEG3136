@@ -32,7 +32,7 @@ int alarmCodes[NUMCODES] = { 0x0000, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF };
  *              Initializes things (via initgb) and then
  *              loops forever playing games.
  * --------------------------------*/
-void main()
+void main_alarm()
 {
    byte select;
    PLL_init();
