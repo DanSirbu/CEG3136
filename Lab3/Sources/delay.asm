@@ -9,6 +9,7 @@
 ; Some definitions
 
 	.text SECTION
+XDEF delayms, setDelay, polldelay
 
 ;-------------------------------
 ; Subroutine delayms

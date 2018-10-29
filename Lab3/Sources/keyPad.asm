@@ -34,6 +34,8 @@ NOKEY		EQU 	$00   ; No key pressed during poll period
 POLLCOUNT	EQU	1     ; Number of loops to create 1 ms poll time
 NO_KEY_PRESSED EQU $FF
 
+XDEF initKeyPad, pollReadKey, readKey
+
  SECTION globalConst  ; Constant data
 
 
