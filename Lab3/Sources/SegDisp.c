@@ -67,9 +67,10 @@ Description: Displays the codes in the code display table
 void segDisp(void) 
 {
 	// Complete this function
-	/*for(int x=0; x<4; x++) {
-    PTP = ~(1 << x);
-    PORTB = NUM_TO_7_SEG_TBL[CHAR_TO_NUM(dispChars[x])];
+	int i;
+	for(i=0; i<4; i++) {
+    PTP = ~(1 << i);
+    PORTB = NUM_TO_7_SEG_TBL[CHAR_TO_NUM(dispChars[i])];
     delayms(1);
-  } */
+  } 
 }

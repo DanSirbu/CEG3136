@@ -8,14 +8,24 @@
 
 void main(void) {
   /* put your own code here */
-  PLL_init();        // set system clock frequency to 24 MHz 
+  //PLL_init();        // set system clock frequency to 24 MHz 
   DDRB  = 0xff;       // Port B is output
   DDRJ  = 0xff;       // Port J is output
   DDRP  = 0xff;       // Port P is output
   PTJ = 0x00;         // enable LED
   PTP = 0x00;         // enable all 7-segment displays
   // turn on every other led and segment on 7-seg displays
-  PORTB   = 0x55;        
+  PORTB   = 0xff;
+  //initLCD();
+  //printLCDStr("Hello", 0);       
 
+  setCharDisplay('0', 0);
+  setCharDisplay('1', 1);
+  setCharDisplay('2', 2);
+  setCharDisplay('4', 3);
+  
+  for(;;) {
+    segDisp();
+  }
   for(;;) {} /* wait forever */
 }
