@@ -24,6 +24,8 @@
 
 ; Include header files
 
+        INCLUDE 'delay_asm.h'
+
 **************EQUATES**********
 
 
@@ -34,13 +36,12 @@ NOKEY		EQU 	$00   ; No key pressed during poll period
 POLLCOUNT	EQU	1     ; Number of loops to create 1 ms poll time
 NO_KEY_PRESSED EQU $FF
 
-XDEF initKeyPad, pollReadKey, readKey
+ XDEF initKeyPad, pollReadKey, readKey
 
- SECTION globalConst  ; Constant data
+.rodata SECTION ;globalConst  ; Constant data
 
 
-
- SECTION code_section  ; place in code section
+.text SECTION ;code_section  ; place in code section
 ;-----------------------------------------------------------	
 ; Subroutine: initKeyPad
 ;
@@ -49,7 +50,7 @@ XDEF initKeyPad, pollReadKey, readKey
 ;-----------------------------------------------------------	
 initKeyPad:
 	movb #$F0, DDRA  ; set half the pins of DDRA to input
-    movb #$00, PORTA ; Outputs are 0
+  movb #$00, PORTA ; Outputs are 0
 	movb #1, PUCR ; Enable port A pull up resistors
 	rts
 
@@ -82,14 +83,14 @@ pollReadKey:
         tsta
         bne return_poll_no_key ; 2ms elapsed, no key pressed
 
-        LDA PORTA
+        LDAA PORTA
         ANDA #$0F ; Keep only input bits
         SUBA #$0F ; if key pressed, zero flag is not set, bne will not execute
         beq readKeyWait
     
     LDD #10
     jsr delayms
-    LDA PORTA
+    LDAA PORTA
     SUBA #$0F ; Key should still be pressed, else it was a false alarm (zero flag is set) so we return no key
     beq return_poll_no_key
 
@@ -98,7 +99,7 @@ pollReadKey:
    rts
 ;No key pressed
 return_poll_no_key:
-   LDB NOKEY
+   LDAB NOKEY
    rts
 
 ;-----------------------------------------------------------	
@@ -118,12 +119,12 @@ return_poll_no_key:
 
 readKey:
     LDX charCodeTbl; find what key is pressed
-    LDB #0
+    LDAB #0
 
 charCodeTblLoop: ; while loop
-    LDA B,X ; key =charCodeTbl[x]
+    LDAA B,X ; key =charCodeTbl[x]
     
-    STA PORTA ; SET PORTA to key
+    STAA PORTA ; SET PORTA to key
     PSHD
     
     ; Wait 1 ms for the port value to be updated
@@ -141,12 +142,12 @@ charCodeTblLoop: ; while loop
 
 FOUND_IT:
     LDX #charTbl
-    LDA B,X ; A = char[x]
+    LDAA B,X ; A = char[x]
     PSHA
 
     ; wait for key released (i.e. wait while key is pressed)
     readKeyWaitLow:
-    LDA PORTA
+    LDAA PORTA
     ANDA #$0F ; Keep only input bits
     SUBA #$0F ; if key not pressed, Zero flag is set and the code will continue, else bne will execute
     bne readKeyWaitLow

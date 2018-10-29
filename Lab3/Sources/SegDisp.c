@@ -9,7 +9,7 @@ Description:  Segment Display Module
 #include "Delay_asm.h"
 
 // Prototypes for internal functions
-#define NUM_7_SEG_DISPLAYS = 4;
+#define NUM_7_SEG_DISPLAYS 4
 //Convert character to 7 segment display version
 #define CHAR_TO_NUM(a) (a - 0x30)
 

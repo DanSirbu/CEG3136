@@ -7,9 +7,10 @@
 ;------------------------------------------------------
 
 ; Some definitions
-
-	.text SECTION
-XDEF delayms, setDelay, polldelay
+TRUE EQU 1
+FALSE EQU 0
+.text SECTION
+      XDEF delayms, setDelay, polldelay
 
 ;-------------------------------
 ; Subroutine delayms
@@ -93,14 +94,14 @@ polldelay: pshb
    STX delayCount
    
    beq return_true_section ; if(!zero) a = false
-   LDA #FALSE
+   LDAA #FALSE
    puly
    pulx
    pulb
    rts
    
    return_true_section:
-   LDA #TRUE
+   LDAA #TRUE
    puly
    pulx
    pulb
@@ -111,6 +112,6 @@ polldelay: pshb
 ;------------------------------------------------------
 ; Global variables
 ;------------------------------------------------------
-   .data SECTION
+.data SECTION
 delayCount ds.w 1   ; 2 byte delay counter
 zero_location ds.w 1
