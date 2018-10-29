@@ -23,8 +23,6 @@
 ;---------------------------------------------------------------------
 
 ; Include header files
- include "sections.inc"
- include "reg9s12.inc"  ; Defines EQU's for Peripheral Ports
 
 **************EQUATES**********
 
@@ -36,11 +34,11 @@ NOKEY		EQU 	$00   ; No key pressed during poll period
 POLLCOUNT	EQU	1     ; Number of loops to create 1 ms poll time
 NO_KEY_PRESSED EQU $FF
 
- SWITCH globalConst  ; Constant data
+ SECTION globalConst  ; Constant data
 
 
 
- SWITCH code_section  ; place in code section
+ SECTION code_section  ; place in code section
 ;-----------------------------------------------------------	
 ; Subroutine: initKeyPad
 ;

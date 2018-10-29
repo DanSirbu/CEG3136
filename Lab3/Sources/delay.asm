@@ -8,7 +8,7 @@
 
 ; Some definitions
 
-	SWITCH code_section
+	.text SECTION
 
 ;-------------------------------
 ; Subroutine delayms
@@ -110,6 +110,6 @@ polldelay: pshb
 ;------------------------------------------------------
 ; Global variables
 ;------------------------------------------------------
-   switch globalVar
+   .data SECTION
 delayCount ds.w 1   ; 2 byte delay counter
 zero_location ds.w 1
