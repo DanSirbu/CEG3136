@@ -14,7 +14,6 @@ FILE SECTION
 ---------------------------------------------------------------------------------------------
 mc9s12dg256.c.o                         Model: BANKED,        Lang: ANSI-C
 delay.asm.o                             Model: BANKED,        Lang: Assembler
-main.asm.o                              Model: BANKED,        Lang: Assembler
 main.c.o                                Model: BANKED,        Lang: ANSI-C
 SegDisp.c.o                             Model: BANKED,        Lang: ANSI-C
 Start12.c.o                             Model: BANKED,        Lang: ANSI-C
@@ -39,7 +38,7 @@ Section Name                    Size  Type     From       To       Segment
 .startData                        10     R     0xC00B     0xC014   ROM_C000
 NON_BANKED                         8     R     0xC015     0xC01C   ROM_C000
 .copy                             16     R     0xC01D     0xC02C   ROM_C000
-.text                            215     R   0x308000   0x3080D6   PAGE_30
+.text                            210     R   0x308000   0x3080D1   PAGE_30
 .stack                           256   R/W     0x1000     0x10FF   RAM
 .data                             14   R/W     0x1100     0x110D   RAM
 .abs_section_8                     1   N/I        0x8        0x8   .absSeg0
@@ -384,11 +383,10 @@ NON_BANKED                         8     R     0xC015     0xC01C   ROM_C000
 .abs_section_2ae                   2   N/I      0x2AE      0x2AF   .absSeg339
 .abs_section_2be                   2   N/I      0x2BE      0x2BF   .absSeg340
 .bss                               4   R/W     0x110E     0x1111   RAM
-MyCode                            28     R   0x3080D7   0x3080F2   PAGE_30
 .vectSeg341_vect                   2     R     0xFFFE     0xFFFF   .vectSeg341
 
 Summary of section sizes per section type:
-READ_ONLY (R):         122 (dec:      290)
+READ_ONLY (R):         101 (dec:      257)
 READ_WRITE (R/W):      112 (dec:      274)
 NO_INIT (N/I):         190 (dec:      400)
 
@@ -606,7 +604,7 @@ MODULE:                 -- mc9s12dg256.c.o --
      _PPSM                                      255       1       1       0   .abs_section_255
      _WOMM                                      256       1       1       0   .abs_section_256
      _MODRR                                     257       1       1       0   .abs_section_257
-     _PTP                                       258       1       1       2   .abs_section_258
+     _PTP                                       258       1       1       3   .abs_section_258
      _PTIP                                      259       1       1       0   .abs_section_259
      _DDRP                                      25A       1       1       1   .abs_section_25a
      _RDRP                                      25B       1       1       0   .abs_section_25b
@@ -757,26 +755,20 @@ MODULE:                 -- delay.asm.o --
 - VARIABLES:
      delayCount                                1100       2       2       3   .data       
      zero_location                             1102       2       2       0   .data       
-MODULE:                 -- main.asm.o --
-- PROCEDURES:
-     asm_main                                3080D7      12      18       0   MyCode      
-     PLL_init                                3080D7       0       0       2   MyCode      
-     pll1                                    3080E9       A      10       0   MyCode      
-- VARIABLES:
 MODULE:                 -- main.c.o --
 - PROCEDURES:
-     main                                    308030      48      72       2   .text       
+     main                                    308030      3E      62       2   .text       
 - VARIABLES:
 MODULE:                 -- SegDisp.c.o --
 - PROCEDURES:
-     setCharDisplay                          308078       8       8       8   .text       
-     segDisp                                 308080      2E      46       2   .text       
+     setCharDisplay                          30806E       8       8       8   .text       
+     segDisp                                 308076      33      51       2   .text       
 - VARIABLES:
      NUM_TO_7_SEG_TBL                          1104       A      10       1   .data       
      dispChars                                 110E       4       4       2   .bss        
 MODULE:                 -- Start12.c.o --
 - PROCEDURES:
-     Init                                    3080AE      29      41       2   .text       
+     Init                                    3080A9      29      41       2   .text       
      _Startup                                  C000       B      11       0   .init       
 - VARIABLES:
      _startupData                              C00B       6       6       3   .startData  
@@ -793,9 +785,8 @@ MODULE STATISTIC
 ---------------------------------------------------------------------------------------------
   mc9s12dg256.c.o                            400      0      0
   delay.asm.o                                  4     48      0
-  main.asm.o                                   0     28      0
-  main.c.o                                     0     72      0
-  SegDisp.c.o                                 14     54      0
+  main.c.o                                     0     62      0
+  SegDisp.c.o                                 14     59      0
   Start12.c.o                                  0     52      0
   rtshc12.c.o (ansibi.lib)                     0      8      0
   other                                      256     12     16
@@ -1496,8 +1487,6 @@ SECTION: ".abs_section_2ae"
   _CAN4RXTSR 
 SECTION: ".abs_section_2be"
   _CAN4TXTSR 
-SECTION: "MyCode"
-  PLL_init asm_main pll1 
 
 *********************************************************************************************
 OBJECT LIST SORTED BY ADDRESS
@@ -1761,7 +1750,7 @@ OBJECT LIST SORTED BY ADDRESS
      _PPSM                                      255       1       1       0   .abs_section_255
      _WOMM                                      256       1       1       0   .abs_section_256
      _MODRR                                     257       1       1       0   .abs_section_257
-     _PTP                                       258       1       1       2   .abs_section_258
+     _PTP                                       258       1       1       3   .abs_section_258
      _PTIP                                      259       1       1       0   .abs_section_259
      _DDRP                                      25A       1       1       1   .abs_section_25a
      _RDRP                                      25B       1       1       0   .abs_section_25b
@@ -1856,13 +1845,10 @@ OBJECT LIST SORTED BY ADDRESS
      polldelay                               30800E       6       6       1   .text       
      delay_loop                              308014      16      22       0   .text       
      return_true_section                     30802A       6       6       0   .text       
-     main                                    308030      48      72       2   .text       
-     setCharDisplay                          308078       8       8       8   .text       
-     segDisp                                 308080      2E      46       2   .text       
-     Init                                    3080AE      29      41       2   .text       
-     PLL_init                                3080D7       0       0       2   MyCode      
-     asm_main                                3080D7      12      18       0   MyCode      
-     pll1                                    3080E9       A      10       0   MyCode      
+     main                                    308030      3E      62       2   .text       
+     setCharDisplay                          30806E       8       8       8   .text       
+     segDisp                                 308076      33      51       2   .text       
+     Init                                    3080A9      29      41       2   .text       
 
 *********************************************************************************************
 UNUSED-OBJECTS SECTION
@@ -1902,7 +1888,7 @@ delayms                   USES setDelay
 delayLoop                 USES polldelay 
 setDelay                  USES delayCount 
 delay_loop                USES delayCount 
-main                      USES PLL_init _DDRAB _DDRJ _DDRP _PTJ _PTP _PORTAB 
+main                      USES _DDRAB _DDRJ _DDRP _PTJ _PTP _PORTAB 
                                 setCharDisplay segDisp 
 setCharDisplay            USES dispChars 
 segDisp                   USES _BSHL _PTP dispChars NUM_TO_7_SEG_TBL _PORTAB 
@@ -1916,8 +1902,6 @@ DEPENDENCY TREE
  | 
  +- main                
  |  | 
- |  +- PLL_init            
- |  |    
  |  +- setCharDisplay      
  |  |    
  |  +- segDisp             
@@ -1940,6 +1924,6 @@ STATISTIC SECTION
 
 ExeFile:
 --------
-Number of blocks to be downloaded: 6
-Total size of all blocks to be downloaded: 290
+Number of blocks to be downloaded: 5
+Total size of all blocks to be downloaded: 257
 

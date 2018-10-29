@@ -4,7 +4,7 @@
 #pragma LINK_INFO DERIVATIVE "mc9s12dg256b"
 
 #include "main_asm.h" /* interface to the assembly module */
-
+#include "alarm.h"
 
 void main(void) {
   /* put your own code here */
@@ -19,13 +19,11 @@ void main(void) {
   //initLCD();
   //printLCDStr("Hello", 0);       
 
-  setCharDisplay('0', 0);
-  setCharDisplay('1', 1);
-  setCharDisplay('2', 2);
-  setCharDisplay('4', 3);
+  setCharDisplay('2', (byte)0);
+  setCharDisplay('1', (byte)1);
+  setCharDisplay('2', (byte)2);
+  setCharDisplay('4', (byte)3);
+  segDisp();
   
-  for(;;) {
-    segDisp();
-  }
   for(;;) {} /* wait forever */
 }
