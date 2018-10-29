@@ -14,7 +14,7 @@ Description:  Segment Display Module
 #define CHAR_TO_NUM(a) (a - 0x30)
 
 static u_int8_t dispChars[NUM_7_SEG_DISPLAYS];
-static u_int8_t NUM_TO_7_SEG_TBL[10] = { 0x7E, 0x6, 0x5B, 0x4F, 0x66, 0x7E, 0x7E, 0x7E, 0x7E, 0x7E } //TODO
+static u_int8_t NUM_TO_7_SEG_TBL[10] = { 0x7E, 0x6, 0x5B, 0x4F, 0x66, 0x7E, 0x7E, 0x7E, 0x7E, 0x7E }; //TODO
 /*---------------------------------------------
 Function: initDisp
 Description: initializes hardware for the 

@@ -24,8 +24,6 @@
 
 ; Include header files
 
-        INCLUDE 'delay_asm.h'
-
 **************EQUATES**********
 
 
