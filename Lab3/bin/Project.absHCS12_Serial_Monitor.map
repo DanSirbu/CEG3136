@@ -14,10 +14,11 @@ FILE SECTION
 ---------------------------------------------------------------------------------------------
 mc9s12dg256.c.o                         Model: BANKED,        Lang: ANSI-C
 delay.asm.o                             Model: BANKED,        Lang: Assembler
+lcd.asm.o                               Model: BANKED,        Lang: Assembler
+lcdDisp.c.o                             Model: BANKED,        Lang: ANSI-C
 main.c.o                                Model: BANKED,        Lang: ANSI-C
 SegDisp.c.o                             Model: BANKED,        Lang: ANSI-C
 Start12.c.o                             Model: BANKED,        Lang: ANSI-C
-rtshc12.c.o (ansibi.lib)                Model: BANKED,        Lang: ANSI-C
 
 *********************************************************************************************
 STARTUP SECTION
@@ -26,8 +27,8 @@ Entry point: 0xC000 (_Startup)
 _startupData is allocated at 0xC015 and uses 6 Bytes
 extern struct _tagStartup {
   unsigned nofZeroOut     1
-  _Range   pZeroOut       0x1100     18
-  _Copy    *toCopyDownBeg 0xC027
+  _Range   pZeroOut       0x1100     8
+  _Copy    *toCopyDownBeg 0xC032
 } _startupData;
 
 *********************************************************************************************
@@ -36,11 +37,12 @@ Section Name                    Size  Type     From       To       Segment
 ---------------------------------------------------------------------------------------------
 .init                             21     R     0xC000     0xC014   ROM_C000
 .startData                        10     R     0xC015     0xC01E   ROM_C000
-NON_BANKED                         8     R     0xC01F     0xC026   ROM_C000
-.copy                             16     R     0xC027     0xC036   ROM_C000
-.text                            240     R   0x308000   0x3080EF   PAGE_30
+.rodata                           13     R     0xC01F     0xC02B   ROM_C000
+.rodata1                           6     R     0xC02C     0xC031   ROM_C000
+.copy                              2     R     0xC032     0xC033   ROM_C000
+.text                            365     R   0x308000   0x30816C   PAGE_30
 .stack                           256   R/W     0x1000     0x10FF   RAM
-.data                             14   R/W     0x1100     0x110D   RAM
+.data                              4   R/W     0x1100     0x1103   RAM
 .abs_section_8                     1   N/I        0x8        0x8   .absSeg0
 .abs_section_9                     1   N/I        0x9        0x9   .absSeg1
 .abs_section_a                     1   N/I        0xA        0xA   .absSeg2
@@ -382,12 +384,12 @@ NON_BANKED                         8     R     0xC01F     0xC026   ROM_C000
 .abs_section_17e                   2   N/I      0x17E      0x17F   .absSeg338
 .abs_section_2ae                   2   N/I      0x2AE      0x2AF   .absSeg339
 .abs_section_2be                   2   N/I      0x2BE      0x2BF   .absSeg340
-.bss                               4   R/W     0x110E     0x1111   RAM
+.bss                               4   R/W     0x1104     0x1107   RAM
 .vectSeg341_vect                   2     R     0xFFFE     0xFFFF   .vectSeg341
 
 Summary of section sizes per section type:
-READ_ONLY (R):         129 (dec:      297)
-READ_WRITE (R/W):      112 (dec:      274)
+READ_ONLY (R):         1A3 (dec:      419)
+READ_WRITE (R/W):      108 (dec:      264)
 NO_INIT (N/I):         190 (dec:      400)
 
 *********************************************************************************************
@@ -604,7 +606,7 @@ MODULE:                 -- mc9s12dg256.c.o --
      _PPSM                                      255       1       1       0   .abs_section_255
      _WOMM                                      256       1       1       0   .abs_section_256
      _MODRR                                     257       1       1       0   .abs_section_257
-     _PTP                                       258       1       1       3   .abs_section_258
+     _PTP                                       258       1       1       1   .abs_section_258
      _PTIP                                      259       1       1       0   .abs_section_259
      _DDRP                                      25A       1       1       1   .abs_section_25a
      _RDRP                                      25B       1       1       0   .abs_section_25b
@@ -685,7 +687,7 @@ MODULE:                 -- mc9s12dg256.c.o --
      _CAN4TXDSR7                                2BB       1       1       0   .abs_section_2bb
      _CAN4TXDLR                                 2BC       1       1       0   .abs_section_2bc
      _CAN4TXTBPR                                2BD       1       1       0   .abs_section_2bd
-     _PORTAB                                      0       2       2       2   .abs_section_0
+     _PORTAB                                      0       2       2       1   .abs_section_0
      _DDRAB                                       2       2       2       1   .abs_section_2
      _PARTID                                     1A       2       2       0   .abs_section_1a
      _TCNT                                       44       2       2       0   .abs_section_44
@@ -746,9 +748,9 @@ MODULE:                 -- mc9s12dg256.c.o --
      _CAN4TXTSR                                 2BE       2       2       0   .abs_section_2be
 MODULE:                 -- delay.asm.o --
 - PROCEDURES:
-     delayms_c                               308000       3       3       2   .text       
+     delayms_c                               308000       3       3       0   .text       
      delayLoop_c                             308003       7       7       0   .text       
-     delayms                                 30800A       3       3       0   .text       
+     delayms                                 30800A       3       3       6   .text       
      delayLoop                               30800D       7       7       0   .text       
      setDelay                                308014       4       4       2   .text       
      polldelay                               308018       6       6       2   .text       
@@ -757,29 +759,59 @@ MODULE:                 -- delay.asm.o --
 - VARIABLES:
      delayCount                                1100       2       2       3   .data       
      zero_location                             1102       2       2       0   .data       
+MODULE:                 -- lcd.asm.o --
+- PROCEDURES:
+     lcd_init                                30803A       A      10       2   .text       
+     lcdi1                                   308044      1E      30       0   .text       
+     data8                                   308062       C      12       0   .text       
+     set_lcd_addr                            30806E       E      14       2   .text       
+     clear_lcd                               30807C       C      12       2   .text       
+     type_lcd                                308088       3       3       2   .text       
+     next_char                               30808B       F      15       0   .text       
+     done                                    30809A       2       2       0   .text       
+     write_instr_nibble                      30809C       B      11       3   .text       
+     win                                     3080A7       8       8       0   .text       
+     write_data_nibble                       3080AF       B      11       2   .text       
+     wdn                                     3080BA       8       8       0   .text       
+     write_instr_byte                        3080C2       D      13       3   .text       
+     write_data_byte                         3080CF       D      13       2   .text       
+- VARIABLES:
+     VAR00001                                  C01F       1       1       1   .rodata     
+     VAR00002                                  C020       1       1       0   .rodata     
+     VAR00003                                  C021       1       1       0   .rodata     
+     VAR00004                                  C022       1       1       0   .rodata     
+     VAR00005                                  C023       1       1       0   .rodata     
+     VAR00006                                  C024       1       1       0   .rodata     
+     VAR00007                                  C025       1       1       0   .rodata     
+     VAR00008                                  C026       1       1       0   .rodata     
+     VAR00009                                  C027       1       1       0   .rodata     
+     VAR00010                                  C028       1       1       0   .rodata     
+     VAR00011                                  C029       1       1       0   .rodata     
+     VAR00012                                  C02A       1       1       0   .rodata     
+     VAR00013                                  C02B       1       1       0   .rodata     
+MODULE:                 -- lcdDisp.c.o --
+- PROCEDURES:
+     initLCD                                 3080DC       5       5       2   .text       
+     printLCDStr                             3080E1      11      17       2   .text       
+- VARIABLES:
 MODULE:                 -- main.c.o --
 - PROCEDURES:
-     main                                    30803A      3E      62       2   .text       
+     main                                    3080F2      4A      74       2   .text       
 - VARIABLES:
+     STRING.Hello.1                            C02C       6       6       1   .rodata1    
 MODULE:                 -- SegDisp.c.o --
 - PROCEDURES:
-     setCharDisplay                          308078       8       8       8   .text       
-     segDisp                                 308080      47      71       2   .text       
+     setCharDisplay                          30813C       8       8       8   .text       
 - VARIABLES:
-     NUM_TO_7_SEG_TBL                          1104       A      10       1   .data       
-     dispChars                                 110E       4       4       2   .bss        
+     dispChars                                 1104       4       4       1   .bss        
 MODULE:                 -- Start12.c.o --
 - PROCEDURES:
-     Init                                    3080C7      29      41       2   .text       
+     Init                                    308144      29      41       2   .text       
      _Startup                                  C000      15      21       0   .init       
 - VARIABLES:
      _startupData                              C015       6       6       3   .startData  
 - LABELS:
      __SEG_END_SSTACK                          1100       0       0       1               
-MODULE:                 -- rtshc12.c.o (ansibi.lib) --
-- PROCEDURES:
-     _BSHL                                     C01F       8       8       1   NON_BANKED  
-- VARIABLES:
 
 *********************************************************************************************
 MODULE STATISTIC
@@ -787,26 +819,32 @@ MODULE STATISTIC
 ---------------------------------------------------------------------------------------------
   mc9s12dg256.c.o                            400      0      0
   delay.asm.o                                  4     58      0
-  main.c.o                                     0     62      0
-  SegDisp.c.o                                 14     79      0
+  lcd.asm.o                                    0    162     13
+  lcdDisp.c.o                                  0     22      0
+  main.c.o                                     0     74      6
+  SegDisp.c.o                                  4      8      0
   Start12.c.o                                  0     62      0
-  rtshc12.c.o (ansibi.lib)                     0      8      0
-  other                                      256     12     16
+  other                                      256     12      2
 
 *********************************************************************************************
 SECTION USE IN OBJECT-ALLOCATION SECTION
 ---------------------------------------------------------------------------------------------
 SECTION: ".text"
   delayms_c delayLoop_c delayms delayLoop setDelay polldelay delay_loop 
-  return_true_section main setCharDisplay segDisp Init 
+  return_true_section lcd_init lcdi1 data8 set_lcd_addr clear_lcd type_lcd 
+  next_char done write_instr_nibble win write_data_nibble wdn write_instr_byte 
+  write_data_byte initLCD printLCDStr main setCharDisplay Init 
 SECTION: ".data"
-  delayCount zero_location NUM_TO_7_SEG_TBL 
+  delayCount zero_location 
 SECTION: ".bss"
   dispChars 
 SECTION: ".init"
   _Startup 
-SECTION: "NON_BANKED"
-  _BSHL 
+SECTION: ".rodata"
+  VAR00001 VAR00002 VAR00003 VAR00004 VAR00005 VAR00006 VAR00007 VAR00008 
+  VAR00009 VAR00010 VAR00011 VAR00012 VAR00013 
+SECTION: ".rodata1"
+  STRING.Hello.1 
 SECTION: ".abs_section_8"
   _PORTE 
 SECTION: ".abs_section_9"
@@ -1494,7 +1532,7 @@ SECTION: ".abs_section_2be"
 OBJECT LIST SORTED BY ADDRESS
      Name                                      Addr   hSize   dSize     Ref    Section   RLIB
 ---------------------------------------------------------------------------------------------
-     _PORTAB                                      0       2       2       2   .abs_section_0
+     _PORTAB                                      0       2       2       1   .abs_section_0
      _DDRAB                                       2       2       2       1   .abs_section_2
      _PORTE                                       8       1       1       0   .abs_section_8
      _DDRE                                        9       1       1       0   .abs_section_9
@@ -1752,7 +1790,7 @@ OBJECT LIST SORTED BY ADDRESS
      _PPSM                                      255       1       1       0   .abs_section_255
      _WOMM                                      256       1       1       0   .abs_section_256
      _MODRR                                     257       1       1       0   .abs_section_257
-     _PTP                                       258       1       1       3   .abs_section_258
+     _PTP                                       258       1       1       1   .abs_section_258
      _PTIP                                      259       1       1       0   .abs_section_259
      _DDRP                                      25A       1       1       1   .abs_section_25a
      _RDRP                                      25B       1       1       0   .abs_section_25b
@@ -1837,50 +1875,64 @@ OBJECT LIST SORTED BY ADDRESS
      _CAN4TXTSR                                 2BE       2       2       0   .abs_section_2be
      delayCount                                1100       2       2       3   .data       
      zero_location                             1102       2       2       0   .data       
-     NUM_TO_7_SEG_TBL                          1104       A      10       1   .data       
-     dispChars                                 110E       4       4       2   .bss        
+     dispChars                                 1104       4       4       1   .bss        
      _Startup                                  C000      15      21       0   .init       
-     _BSHL                                     C01F       8       8       1   NON_BANKED  
-     delayms_c                               308000       3       3       2   .text       
+     VAR00001                                  C01F       1       1       1   .rodata     
+     VAR00002                                  C020       1       1       0   .rodata     
+     VAR00003                                  C021       1       1       0   .rodata     
+     VAR00004                                  C022       1       1       0   .rodata     
+     VAR00005                                  C023       1       1       0   .rodata     
+     VAR00006                                  C024       1       1       0   .rodata     
+     VAR00007                                  C025       1       1       0   .rodata     
+     VAR00008                                  C026       1       1       0   .rodata     
+     VAR00009                                  C027       1       1       0   .rodata     
+     VAR00010                                  C028       1       1       0   .rodata     
+     VAR00011                                  C029       1       1       0   .rodata     
+     VAR00012                                  C02A       1       1       0   .rodata     
+     VAR00013                                  C02B       1       1       0   .rodata     
+     STRING.Hello.1                            C02C       6       6       1   .rodata1    
+     delayms_c                               308000       3       3       0   .text       
      delayLoop_c                             308003       7       7       0   .text       
-     delayms                                 30800A       3       3       0   .text       
+     delayms                                 30800A       3       3       6   .text       
      delayLoop                               30800D       7       7       0   .text       
      setDelay                                308014       4       4       2   .text       
      polldelay                               308018       6       6       2   .text       
      delay_loop                              30801E      16      22       0   .text       
      return_true_section                     308034       6       6       0   .text       
-     main                                    30803A      3E      62       2   .text       
-     setCharDisplay                          308078       8       8       8   .text       
-     segDisp                                 308080      47      71       2   .text       
-     Init                                    3080C7      29      41       2   .text       
+     lcd_init                                30803A       A      10       2   .text       
+     lcdi1                                   308044      1E      30       0   .text       
+     data8                                   308062       C      12       0   .text       
+     set_lcd_addr                            30806E       E      14       2   .text       
+     clear_lcd                               30807C       C      12       2   .text       
+     type_lcd                                308088       3       3       2   .text       
+     next_char                               30808B       F      15       0   .text       
+     done                                    30809A       2       2       0   .text       
+     write_instr_nibble                      30809C       B      11       3   .text       
+     win                                     3080A7       8       8       0   .text       
+     write_data_nibble                       3080AF       B      11       2   .text       
+     wdn                                     3080BA       8       8       0   .text       
+     write_instr_byte                        3080C2       D      13       3   .text       
+     write_data_byte                         3080CF       D      13       2   .text       
+     initLCD                                 3080DC       5       5       2   .text       
+     printLCDStr                             3080E1      11      17       2   .text       
+     main                                    3080F2      4A      74       2   .text       
+     setCharDisplay                          30813C       8       8       8   .text       
+     Init                                    308144      29      41       2   .text       
 
 *********************************************************************************************
 UNUSED-OBJECTS SECTION
 ---------------------------------------------------------------------------------------------
 NOT USED PROCEDURES
 SegDisp.c.o:
-  initDisp clearDisp 
-rtshc12.c.o (ansibi.lib):
-  _BSHRS _BSHRU _BDIVMODU _BDIVMODS _ISHL _ISHRU _ISHRS _LSHL _LSHRU _LSHRS 
-  _LADD _LSUB _LAND _LOR _LXOR _LCMP _LCMP_P _LCMP_PP _LNEG _LCOM _LINC _LDEC 
-  _LMUL _LMULU16x32 _LMULS16x32 _lDivMod _LDIVU _NEG_P _LDIVS _LMODU _LMODS 
-  _ILSEXT _COPY _CASE_DIRECT _CASE_DIRECT_BYTE _CASE_CHECKED _CASE_CHECKED_BYTE 
-  _CASE_SEARCH _CASE_SEARCH_BYTE _CASE_SEARCH_8 _CASE_SEARCH_8_BYTE _FCALL 
-  _FPCMP 
+  initDisp clearDisp segDisp 
 NOT USED VARIABLES
-rtshc12.c.o (ansibi.lib):
-  _PowOfTwo_8 _PowOfTwo_16 _PowOfTwo_32 errno 
+SegDisp.c.o:
+  NUM_TO_7_SEG_TBL 
 
 *********************************************************************************************
 COPYDOWN SECTION
 ---------------------------------------------------------------------------------------------
-------- ROM-ADDRESS: 0xC027 ---- SIZE       4 ---
-Filling bytes inserted
- 000A1104
-------- ROM-ADDRESS: 0xC02B ---- RAM-ADDRESS: 0x1104 ---- SIZE      10 ---
-Name of initialized Object : NUM_TO_7_SEG_TBL
- 3F065B4F66 6D7D077F67
-------- ROM-ADDRESS: 0xC035 ---- SIZE       2 ---
+------- ROM-ADDRESS: 0xC032 ---- SIZE       2 ---
 Filling bytes inserted
  0000
 
@@ -1894,11 +1946,19 @@ delayms                   USES setDelay
 delayLoop                 USES polldelay 
 setDelay                  USES delayCount 
 delay_loop                USES delayCount 
+lcd_init                  USES VAR00001 
+lcdi1                     USES write_instr_nibble delayms write_instr_byte 
+data8                     USES write_data_byte delayms 
+set_lcd_addr              USES write_instr_byte delayms 
+clear_lcd                 USES write_instr_byte delayms 
+next_char                 USES write_data_byte delayms 
+write_instr_byte          USES write_instr_nibble 
+write_data_byte           USES write_data_nibble 
+initLCD                   USES lcd_init 
+printLCDStr               USES clear_lcd set_lcd_addr type_lcd 
 main                      USES _DDRAB _DDRJ _DDRP _PTJ _PTP _PORTAB 
-                                setCharDisplay segDisp 
+                                setCharDisplay initLCD STRING.Hello.1 printLCDStr 
 setCharDisplay            USES dispChars 
-segDisp                   USES _BSHL _PTP dispChars NUM_TO_7_SEG_TBL _PORTAB 
-                                delayms_c 
 Init                      USES _startupData 
 
 *********************************************************************************************
@@ -1910,14 +1970,30 @@ DEPENDENCY TREE
  |  | 
  |  +- setCharDisplay      
  |  |    
- |  +- segDisp             
+ |  +- initLCD             
+ |  |  | 
+ |  |  +- lcd_init            
+ |  |       
+ |  +- printLCDStr         
  |     | 
- |     +- _BSHL               
- |     |    
- |     +- delayms_c           
- |        | 
- |        +- setDelay            
- |             
+ |     +- clear_lcd           
+ |     |  | 
+ |     |  +- write_instr_byte    
+ |     |  |  | 
+ |     |  |  +- write_instr_nibble  
+ |     |  |       
+ |     |  +- delayms             
+ |     |     | 
+ |     |     +- setDelay            
+ |     |          
+ |     +- set_lcd_addr        
+ |     |  | 
+ |     |  +- write_instr_byte     (see above)
+ |     |  |  
+ |     |  +- delayms              (see above)
+ |     |     
+ |     +- type_lcd            
+ |          
  +- _Startup            
     | 
     +- Init                
@@ -1930,6 +2006,6 @@ STATISTIC SECTION
 
 ExeFile:
 --------
-Number of blocks to be downloaded: 5
-Total size of all blocks to be downloaded: 297
+Number of blocks to be downloaded: 7
+Total size of all blocks to be downloaded: 419
 

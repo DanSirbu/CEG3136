@@ -39,7 +39,11 @@ Description: Prints a string on the display on one of the
 void printLCDStr(char *str, byte lineno)
 {
 	// Complete this function
-  clear_lcd();
+	if(lineno == 0) {
+	 	set_lcd_addr(0x00);
+	} else {
+	  set_lcd_addr(0x40);
+	}
   type_lcd(str);
-  //?set_lcd_addr
+  
 }

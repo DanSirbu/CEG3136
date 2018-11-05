@@ -26,7 +26,7 @@ void main(void) {
   //segDisp();
 
   initLCD();
-  printLCDStr("Hello", 0);
+  printLCDStr("Hello", 1);
 
   for(;;) {} /* wait forever */
 }

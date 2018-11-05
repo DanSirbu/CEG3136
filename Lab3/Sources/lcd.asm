@@ -59,7 +59,7 @@ set_lcd_addr:
             jsr     write_instr_byte
             ldd     #10
             jsr     delayms
-            rts
+            rtc
 
 ;   clear LCD
 clear_lcd:
