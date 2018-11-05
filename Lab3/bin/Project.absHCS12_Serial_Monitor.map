@@ -1,5 +1,5 @@
 
-PROGRAM "C:\Users\mikem\OneDrive\Documents\CEG3136\Lab3\bin\Project.absHCS12_Serial_Monitor.abs"
+PROGRAM "C:\Users\mikem\Google Drive\School\2018\Fall 2018\CEG3136B\Lab\Lab3\CEG3136\Lab3\bin\Project.absHCS12_Serial_Monitor.abs"
 
 *********************************************************************************************
 TARGET SECTION
@@ -23,22 +23,22 @@ rtshc12.c.o (ansibi.lib)                Model: BANKED,        Lang: ANSI-C
 STARTUP SECTION
 ---------------------------------------------------------------------------------------------
 Entry point: 0xC000 (_Startup)
-_startupData is allocated at 0xC00B and uses 6 Bytes
+_startupData is allocated at 0xC015 and uses 6 Bytes
 extern struct _tagStartup {
   unsigned nofZeroOut     1
   _Range   pZeroOut       0x1100     18
-  _Copy    *toCopyDownBeg 0xC01D
+  _Copy    *toCopyDownBeg 0xC027
 } _startupData;
 
 *********************************************************************************************
 SECTION-ALLOCATION SECTION
 Section Name                    Size  Type     From       To       Segment
 ---------------------------------------------------------------------------------------------
-.init                             11     R     0xC000     0xC00A   ROM_C000
-.startData                        10     R     0xC00B     0xC014   ROM_C000
-NON_BANKED                         8     R     0xC015     0xC01C   ROM_C000
-.copy                             16     R     0xC01D     0xC02C   ROM_C000
-.text                            210     R   0x308000   0x3080D1   PAGE_30
+.init                             21     R     0xC000     0xC014   ROM_C000
+.startData                        10     R     0xC015     0xC01E   ROM_C000
+NON_BANKED                         8     R     0xC01F     0xC026   ROM_C000
+.copy                             16     R     0xC027     0xC036   ROM_C000
+.text                            240     R   0x308000   0x3080EF   PAGE_30
 .stack                           256   R/W     0x1000     0x10FF   RAM
 .data                             14   R/W     0x1100     0x110D   RAM
 .abs_section_8                     1   N/I        0x8        0x8   .absSeg0
@@ -386,7 +386,7 @@ NON_BANKED                         8     R     0xC015     0xC01C   ROM_C000
 .vectSeg341_vect                   2     R     0xFFFE     0xFFFF   .vectSeg341
 
 Summary of section sizes per section type:
-READ_ONLY (R):         101 (dec:      257)
+READ_ONLY (R):         129 (dec:      297)
 READ_WRITE (R/W):      112 (dec:      274)
 NO_INIT (N/I):         190 (dec:      400)
 
@@ -746,37 +746,39 @@ MODULE:                 -- mc9s12dg256.c.o --
      _CAN4TXTSR                                 2BE       2       2       0   .abs_section_2be
 MODULE:                 -- delay.asm.o --
 - PROCEDURES:
-     delayms                                 308000       3       3       2   .text       
-     delayLoop                               308003       7       7       0   .text       
-     setDelay                                30800A       4       4       1   .text       
-     polldelay                               30800E       6       6       1   .text       
-     delay_loop                              308014      16      22       0   .text       
-     return_true_section                     30802A       6       6       0   .text       
+     delayms_c                               308000       3       3       2   .text       
+     delayLoop_c                             308003       7       7       0   .text       
+     delayms                                 30800A       3       3       0   .text       
+     delayLoop                               30800D       7       7       0   .text       
+     setDelay                                308014       4       4       2   .text       
+     polldelay                               308018       6       6       2   .text       
+     delay_loop                              30801E      16      22       0   .text       
+     return_true_section                     308034       6       6       0   .text       
 - VARIABLES:
      delayCount                                1100       2       2       3   .data       
      zero_location                             1102       2       2       0   .data       
 MODULE:                 -- main.c.o --
 - PROCEDURES:
-     main                                    308030      3E      62       2   .text       
+     main                                    30803A      3E      62       2   .text       
 - VARIABLES:
 MODULE:                 -- SegDisp.c.o --
 - PROCEDURES:
-     setCharDisplay                          30806E       8       8       8   .text       
-     segDisp                                 308076      33      51       2   .text       
+     setCharDisplay                          308078       8       8       8   .text       
+     segDisp                                 308080      47      71       2   .text       
 - VARIABLES:
      NUM_TO_7_SEG_TBL                          1104       A      10       1   .data       
      dispChars                                 110E       4       4       2   .bss        
 MODULE:                 -- Start12.c.o --
 - PROCEDURES:
-     Init                                    3080A9      29      41       2   .text       
-     _Startup                                  C000       B      11       0   .init       
+     Init                                    3080C7      29      41       2   .text       
+     _Startup                                  C000      15      21       0   .init       
 - VARIABLES:
-     _startupData                              C00B       6       6       3   .startData  
+     _startupData                              C015       6       6       3   .startData  
 - LABELS:
      __SEG_END_SSTACK                          1100       0       0       1               
 MODULE:                 -- rtshc12.c.o (ansibi.lib) --
 - PROCEDURES:
-     _BSHL                                     C015       8       8       1   NON_BANKED  
+     _BSHL                                     C01F       8       8       1   NON_BANKED  
 - VARIABLES:
 
 *********************************************************************************************
@@ -784,10 +786,10 @@ MODULE STATISTIC
   Name                                      Data   Code  Const
 ---------------------------------------------------------------------------------------------
   mc9s12dg256.c.o                            400      0      0
-  delay.asm.o                                  4     48      0
+  delay.asm.o                                  4     58      0
   main.c.o                                     0     62      0
-  SegDisp.c.o                                 14     59      0
-  Start12.c.o                                  0     52      0
+  SegDisp.c.o                                 14     79      0
+  Start12.c.o                                  0     62      0
   rtshc12.c.o (ansibi.lib)                     0      8      0
   other                                      256     12     16
 
@@ -795,8 +797,8 @@ MODULE STATISTIC
 SECTION USE IN OBJECT-ALLOCATION SECTION
 ---------------------------------------------------------------------------------------------
 SECTION: ".text"
-  delayms delayLoop setDelay polldelay delay_loop return_true_section main 
-  setCharDisplay segDisp Init 
+  delayms_c delayLoop_c delayms delayLoop setDelay polldelay delay_loop 
+  return_true_section main setCharDisplay segDisp Init 
 SECTION: ".data"
   delayCount zero_location NUM_TO_7_SEG_TBL 
 SECTION: ".bss"
@@ -1837,18 +1839,20 @@ OBJECT LIST SORTED BY ADDRESS
      zero_location                             1102       2       2       0   .data       
      NUM_TO_7_SEG_TBL                          1104       A      10       1   .data       
      dispChars                                 110E       4       4       2   .bss        
-     _Startup                                  C000       B      11       0   .init       
-     _BSHL                                     C015       8       8       1   NON_BANKED  
-     delayms                                 308000       3       3       2   .text       
-     delayLoop                               308003       7       7       0   .text       
-     setDelay                                30800A       4       4       1   .text       
-     polldelay                               30800E       6       6       1   .text       
-     delay_loop                              308014      16      22       0   .text       
-     return_true_section                     30802A       6       6       0   .text       
-     main                                    308030      3E      62       2   .text       
-     setCharDisplay                          30806E       8       8       8   .text       
-     segDisp                                 308076      33      51       2   .text       
-     Init                                    3080A9      29      41       2   .text       
+     _Startup                                  C000      15      21       0   .init       
+     _BSHL                                     C01F       8       8       1   NON_BANKED  
+     delayms_c                               308000       3       3       2   .text       
+     delayLoop_c                             308003       7       7       0   .text       
+     delayms                                 30800A       3       3       0   .text       
+     delayLoop                               30800D       7       7       0   .text       
+     setDelay                                308014       4       4       2   .text       
+     polldelay                               308018       6       6       2   .text       
+     delay_loop                              30801E      16      22       0   .text       
+     return_true_section                     308034       6       6       0   .text       
+     main                                    30803A      3E      62       2   .text       
+     setCharDisplay                          308078       8       8       8   .text       
+     segDisp                                 308080      47      71       2   .text       
+     Init                                    3080C7      29      41       2   .text       
 
 *********************************************************************************************
 UNUSED-OBJECTS SECTION
@@ -1870,13 +1874,13 @@ rtshc12.c.o (ansibi.lib):
 *********************************************************************************************
 COPYDOWN SECTION
 ---------------------------------------------------------------------------------------------
-------- ROM-ADDRESS: 0xC01D ---- SIZE       4 ---
+------- ROM-ADDRESS: 0xC027 ---- SIZE       4 ---
 Filling bytes inserted
  000A1104
-------- ROM-ADDRESS: 0xC021 ---- RAM-ADDRESS: 0x1104 ---- SIZE      10 ---
+------- ROM-ADDRESS: 0xC02B ---- RAM-ADDRESS: 0x1104 ---- SIZE      10 ---
 Name of initialized Object : NUM_TO_7_SEG_TBL
- 7E065B4F66 7E7E7E7E7E
-------- ROM-ADDRESS: 0xC02B ---- SIZE       2 ---
+ 3F065B4F66 6D7D077F67
+------- ROM-ADDRESS: 0xC035 ---- SIZE       2 ---
 Filling bytes inserted
  0000
 
@@ -1884,6 +1888,8 @@ Filling bytes inserted
 OBJECT-DEPENDENCIES SECTION
 ---------------------------------------------------------------------------------------------
 _Startup                  USES __SEG_END_SSTACK Init main 
+delayms_c                 USES setDelay 
+delayLoop_c               USES polldelay 
 delayms                   USES setDelay 
 delayLoop                 USES polldelay 
 setDelay                  USES delayCount 
@@ -1892,7 +1898,7 @@ main                      USES _DDRAB _DDRJ _DDRP _PTJ _PTP _PORTAB
                                 setCharDisplay segDisp 
 setCharDisplay            USES dispChars 
 segDisp                   USES _BSHL _PTP dispChars NUM_TO_7_SEG_TBL _PORTAB 
-                                delayms 
+                                delayms_c 
 Init                      USES _startupData 
 
 *********************************************************************************************
@@ -1908,7 +1914,7 @@ DEPENDENCY TREE
  |     | 
  |     +- _BSHL               
  |     |    
- |     +- delayms             
+ |     +- delayms_c           
  |        | 
  |        +- setDelay            
  |             
@@ -1925,5 +1931,5 @@ STATISTIC SECTION
 ExeFile:
 --------
 Number of blocks to be downloaded: 5
-Total size of all blocks to be downloaded: 257
+Total size of all blocks to be downloaded: 297
 

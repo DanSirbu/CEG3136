@@ -68,12 +68,13 @@ void segDisp(void)
 {
 	// Complete this function
 	int x;
-    for(x = 0; x < 20; x++) {
+    for(x = 0; x < 25; x++) {
         int i;
         for(i=0; i<4; i++) {
             PTP = 0xF0 | ~(1 << i);
             PORTB = NUM_TO_7_SEG_TBL[CHAR_TO_NUM(dispChars[i])];
-            delayms_c(5);
+            delayms_c(1);
         }
     }
+    PTP = 0xFF;
 }

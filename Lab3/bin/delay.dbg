@@ -8,10 +8,27 @@
 
 ; Some definitions
       XDEF delayms
+      XDEF delayms_c
 TRUE EQU 1
 FALSE EQU 0
 
 .text SECTION; code_section
+
+;-------------------------------
+; Subroutine delayms_c
+; Parameters: num - number of milliseconds to delay - in D
+; Returns: nothing
+; Description: Delays for num ms. 
+;--------------------------------
+delayms_c: 
+      ; Complete this routine, it shall be called from the Keypad Module
+   jsr setDelay
+delayLoop_c:
+   jsr polldelay
+   tsta
+   BEQ delayLoop_c
+
+   rtc
 
 ;-------------------------------
 ; Subroutine delayms
