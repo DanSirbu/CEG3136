@@ -32,7 +32,7 @@ lcdi1:	ldaa   	1,x+                ; get next code
        	decb                    ; in reset sequence to simplify coding
        	bne    	lcdi1
        	pulb
-       	rts
+       	rtc
 
 ;   write instruction byte B to LCD
 instr8:
@@ -67,10 +67,10 @@ clear_lcd:
             jsr     write_instr_byte
             ldd     #10
             jsr     delayms
-            rts
+            rtc
 
 ;	display asciiz string on LCD
-;	D -> asciiz string 
+;	D -> asciiz stringï¿½
 type_lcd:
             pshx              ;save X
             tfr     D,X       ;X -> asciiz string
@@ -81,7 +81,7 @@ next_char   ldaa	  1,X+		  ;get next char
             jsr     delayms
 	          bra	    next_char	;and repeat
 done	      pulx              ;restore X
-            rts
+            rtc
 
 
 ; write instruction upper nibble
