@@ -23,7 +23,10 @@ void main(void) {
   setCharDisplay('1', (byte)1);
   setCharDisplay('2', (byte)2);
   setCharDisplay('4', (byte)3);
-  segDisp();
-  
+  //segDisp();
+
+  initLCD();
+  printLCDStr("Hello", 0);
+
   for(;;) {} /* wait forever */
 }
