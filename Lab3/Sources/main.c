@@ -18,6 +18,6 @@ void main(void) {
   PORTB   = 0xff;
 
   alarm_main();
-  
+
   for(;;) {} /* wait forever */
 }
