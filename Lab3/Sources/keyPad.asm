@@ -26,6 +26,7 @@
   include "mc9s12dg256.inc"  ; Defines EQU's for Peripheral Ports
 
   XREF delayms
+  XDEF initKeyPad, readKey, pollReadKey
 **************EQUATES**********
 
 

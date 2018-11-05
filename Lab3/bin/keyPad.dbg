@@ -8684,6 +8684,7 @@ mNVFSEC_KEYEN1:     equ    %10000000
 ; EOF
 
   XREF delayms
+  XDEF initKeyPad, readKey, pollReadKey
 **************EQUATES**********
 
 

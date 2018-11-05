@@ -17,7 +17,7 @@ void main(void) {
   // turn on every other led and segment on 7-seg displays
   PORTB   = 0xff;
 
-  alarm_main();
+  main_alarm();
 
   for(;;) {} /* wait forever */
 }

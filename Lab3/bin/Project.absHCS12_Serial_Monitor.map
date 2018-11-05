@@ -13,12 +13,19 @@ Linker      : SmartLinker V-5.0.40 Build 10203, Jul 23 2010
 FILE SECTION
 ---------------------------------------------------------------------------------------------
 mc9s12dg256.c.o                         Model: BANKED,        Lang: ANSI-C
+alarm.c.o                               Model: BANKED,        Lang: ANSI-C
+armed.c.o                               Model: BANKED,        Lang: ANSI-C
+config.c.o                              Model: BANKED,        Lang: ANSI-C
 delay.asm.o                             Model: BANKED,        Lang: Assembler
+keyPad.asm.o                            Model: BANKED,        Lang: Assembler
 lcd.asm.o                               Model: BANKED,        Lang: Assembler
 lcdDisp.c.o                             Model: BANKED,        Lang: ANSI-C
 main.c.o                                Model: BANKED,        Lang: ANSI-C
 SegDisp.c.o                             Model: BANKED,        Lang: ANSI-C
 Start12.c.o                             Model: BANKED,        Lang: ANSI-C
+switches.c.o                            Model: BANKED,        Lang: ANSI-C
+CTYPE.C.o (ansibi.lib)                  Model: BANKED,        Lang: ANSI-C
+rtshc12.c.o (ansibi.lib)                Model: BANKED,        Lang: ANSI-C
 
 *********************************************************************************************
 STARTUP SECTION
@@ -27,8 +34,8 @@ Entry point: 0xC000 (_Startup)
 _startupData is allocated at 0xC015 and uses 6 Bytes
 extern struct _tagStartup {
   unsigned nofZeroOut     1
-  _Range   pZeroOut       0x1100     8
-  _Copy    *toCopyDownBeg 0xC032
+  _Range   pZeroOut       0x1100     32
+  _Copy    *toCopyDownBeg 0xC0EA
 } _startupData;
 
 *********************************************************************************************
@@ -37,12 +44,13 @@ Section Name                    Size  Type     From       To       Segment
 ---------------------------------------------------------------------------------------------
 .init                             21     R     0xC000     0xC014   ROM_C000
 .startData                        10     R     0xC015     0xC01E   ROM_C000
-.rodata                           13     R     0xC01F     0xC02B   ROM_C000
-.rodata1                           6     R     0xC02C     0xC031   ROM_C000
-.copy                              2     R     0xC032     0xC033   ROM_C000
-.text                            365     R   0x308000   0x30816C   PAGE_30
+.rodata                           45     R     0xC01F     0xC04B   ROM_C000
+.rodata1                         150     R     0xC04C     0xC0E1   ROM_C000
+NON_BANKED                         8     R     0xC0E2     0xC0E9   ROM_C000
+.copy                             38     R     0xC0EA     0xC10F   ROM_C000
+.text                           1655     R   0x308000   0x308676   PAGE_30
 .stack                           256   R/W     0x1000     0x10FF   RAM
-.data                              4   R/W     0x1100     0x1103   RAM
+.data                             16   R/W     0x1100     0x110F   RAM
 .abs_section_8                     1   N/I        0x8        0x8   .absSeg0
 .abs_section_9                     1   N/I        0x9        0x9   .absSeg1
 .abs_section_a                     1   N/I        0xA        0xA   .absSeg2
@@ -384,12 +392,13 @@ Section Name                    Size  Type     From       To       Segment
 .abs_section_17e                   2   N/I      0x17E      0x17F   .absSeg338
 .abs_section_2ae                   2   N/I      0x2AE      0x2AF   .absSeg339
 .abs_section_2be                   2   N/I      0x2BE      0x2BF   .absSeg340
-.bss                               4   R/W     0x1104     0x1107   RAM
+.bss                               6   R/W     0x1110     0x1115   RAM
+EEPROM_DATA                       10   R/W     0x1116     0x111F   RAM
 .vectSeg341_vect                   2     R     0xFFFE     0xFFFF   .vectSeg341
 
 Summary of section sizes per section type:
-READ_ONLY (R):         1A3 (dec:      419)
-READ_WRITE (R/W):      108 (dec:      264)
+READ_ONLY (R):         789 (dec:     1929)
+READ_WRITE (R/W):      120 (dec:      288)
 NO_INIT (N/I):         190 (dec:      400)
 
 *********************************************************************************************
@@ -521,8 +530,8 @@ MODULE:                 -- mc9s12dg256.c.o --
      _ECLKDIV                                   110       1       1       0   .abs_section_110
      _ECNFG                                     113       1       1       0   .abs_section_113
      _EPROT                                     114       1       1       0   .abs_section_114
-     _ESTAT                                     115       1       1       0   .abs_section_115
-     _ECMD                                      116       1       1       0   .abs_section_116
+     _ESTAT                                     115       1       1       5   .abs_section_115
+     _ECMD                                      116       1       1       1   .abs_section_116
      _ATD1STAT0                                 126       1       1       0   .abs_section_126
      _ATD1TEST1                                 129       1       1       0   .abs_section_129
      _ATD1STAT1                                 12B       1       1       0   .abs_section_12b
@@ -606,7 +615,7 @@ MODULE:                 -- mc9s12dg256.c.o --
      _PPSM                                      255       1       1       0   .abs_section_255
      _WOMM                                      256       1       1       0   .abs_section_256
      _MODRR                                     257       1       1       0   .abs_section_257
-     _PTP                                       258       1       1       1   .abs_section_258
+     _PTP                                       258       1       1       4   .abs_section_258
      _PTIP                                      259       1       1       0   .abs_section_259
      _DDRP                                      25A       1       1       1   .abs_section_25a
      _RDRP                                      25B       1       1       0   .abs_section_25b
@@ -614,12 +623,12 @@ MODULE:                 -- mc9s12dg256.c.o --
      _PPSP                                      25D       1       1       0   .abs_section_25d
      _PIEP                                      25E       1       1       0   .abs_section_25e
      _PIFP                                      25F       1       1       0   .abs_section_25f
-     _PTH                                       260       1       1       0   .abs_section_260
+     _PTH                                       260       1       1       1   .abs_section_260
      _PTIH                                      261       1       1       0   .abs_section_261
-     _DDRH                                      262       1       1       0   .abs_section_262
+     _DDRH                                      262       1       1       1   .abs_section_262
      _RDRH                                      263       1       1       0   .abs_section_263
-     _PERH                                      264       1       1       0   .abs_section_264
-     _PPSH                                      265       1       1       0   .abs_section_265
+     _PERH                                      264       1       1       1   .abs_section_264
+     _PPSH                                      265       1       1       1   .abs_section_265
      _PIEH                                      266       1       1       0   .abs_section_266
      _PIFH                                      267       1       1       0   .abs_section_267
      _PTJ                                       268       1       1       1   .abs_section_268
@@ -687,7 +696,7 @@ MODULE:                 -- mc9s12dg256.c.o --
      _CAN4TXDSR7                                2BB       1       1       0   .abs_section_2bb
      _CAN4TXDLR                                 2BC       1       1       0   .abs_section_2bc
      _CAN4TXTBPR                                2BD       1       1       0   .abs_section_2bd
-     _PORTAB                                      0       2       2       1   .abs_section_0
+     _PORTAB                                      0       2       2       2   .abs_section_0
      _DDRAB                                       2       2       2       1   .abs_section_2
      _PARTID                                     1A       2       2       0   .abs_section_1a
      _TCNT                                       44       2       2       0   .abs_section_44
@@ -746,105 +755,211 @@ MODULE:                 -- mc9s12dg256.c.o --
      _CAN0TXTSR                                 17E       2       2       0   .abs_section_17e
      _CAN4RXTSR                                 2AE       2       2       0   .abs_section_2ae
      _CAN4TXTSR                                 2BE       2       2       0   .abs_section_2be
+MODULE:                 -- alarm.c.o --
+- PROCEDURES:
+     main_alarm                              308000      48      72       2   .text       
+- VARIABLES:
+     STRING.CEG.Alarm.System.1                 C04C      11      17       1   .rodata1    
+     STRING.c.Config.a.Arm.2                   C05D       F      15       1   .rodata1    
+     alarmCodes                                1116       A      10       4   EEPROM_DATA 
+MODULE:                 -- armed.c.o --
+- PROCEDURES:
+     enableAlarm                             308048      A7     167       3   .text       
+     systemArmed                             3080EF      DC     220       7   .text       
+     checkCode                               3081CB      45      69      10   .text       
+     isCodeValid                             308210      28      40       2   .text       
+     triggerAlarm                            308238      62      98       4   .text       
+- VARIABLES:
+     STRING.Code..1                            C06C       6       6       1   .rodata1    
+     STRING.....Arming.....2                   C072       F      15       1   .rodata1    
+     STRING.....Armed.....3                    C081       E      14       1   .rodata1    
+     STRING....Disarming....4                  C08F      10      16       1   .rodata1    
+     mult.5                                    1100       2       2       4   .data       
+     alarmCode.6                               1110       2       2       4   .bss        
+MODULE:                 -- config.c.o --
+- PROCEDURES:
+     configCodes                             30829A      48      72       2   .text       
+     enterMstCode                            3082E2      59      89       2   .text       
+     setcode                                 30833B      84     132       2   .text       
+     initCodes                               3083BF      10      16       2   .text       
+     writeToEE                               3083CF      3D      61       4   .text       
+- VARIABLES:
+     STRING.a.mstr.1.4.other.1                 C09F      11      17       1   .rodata1    
+     STRING.Bad.entry.2                        C0B0       A      10       2   .rodata1    
+     STRING.Master.code..3                     C0BA       D      13       1   .rodata1    
+     STRING.Code.or..d..4                      C0C7       C      12       1   .rodata1    
+     STRING.Cannot.disable.5                   C0D3       F      15       1   .rodata1    
 MODULE:                 -- delay.asm.o --
 - PROCEDURES:
-     delayms_c                               308000       3       3       0   .text       
-     delayLoop_c                             308003       7       7       0   .text       
-     delayms                                 30800A       3       3       6   .text       
-     delayLoop                               30800D       7       7       0   .text       
-     setDelay                                308014       4       4       2   .text       
-     polldelay                               308018       6       6       2   .text       
-     delay_loop                              30801E      16      22       0   .text       
-     return_true_section                     308034       6       6       0   .text       
+     delayms_c                               30840C       3       3       2   .text       
+     delayLoop_c                             30840F       7       7       0   .text       
+     delayms                                 308416       3       3       9   .text       
+     delayLoop                               308419       7       7       0   .text       
+     setDelay                                308420       4       4       2   .text       
+     polldelay                               308424       6       6       2   .text       
+     delay_loop                              30842A      16      22       0   .text       
+     return_true_section                     308440       6       6       0   .text       
 - VARIABLES:
-     delayCount                                1100       2       2       3   .data       
-     zero_location                             1102       2       2       0   .data       
+     delayCount                                1102       2       2       3   .data       
+     zero_location                             1104       2       2       0   .data       
+MODULE:                 -- keyPad.asm.o --
+- PROCEDURES:
+     initKeyPad                              308446       9       9       2   .text       
+     pollReadKey                             30844F       F      15       6   .text       
+     prk_loop                                30845E      19      25       0   .text       
+     prk_endif1                              308477       3       3       0   .text       
+     prk_endif2                              308477       0       0       0   .text       
+     prk_endloop                             30847A       6       6       0   .text       
+     readKey                                 308480       3       3      11   .text       
+     RDK_DO                                  308483       6       6       0   .text       
+     RDK_LP1                                 308489      21      33       0   .text       
+     RDK_LP2                                 3084AA      15      21       0   .text       
+     readKeyCode                             3084BF      26      38       1   .text       
+     RKY_ENDIF1                              3084E5       3       3       0   .text       
+     RKY_ENDIF2                              3084E5       0       0       0   .text       
+     RKY_ENDIF3                              3084E5       0       0       0   .text       
+     translate                               3084E8       C      12       1   .text       
+     TR_LOOP                                 3084F4       A      10       0   .text       
+     TR_endif                                3084FE       7       7       0   .text       
+     TR_endwh                                308505       4       4       0   .text       
+- VARIABLES:
+     cnvTbl                                    C01F       2       2       1   .rodata     
+     VAR00001                                  C021       2       2       0   .rodata     
+     VAR00002                                  C023       2       2       0   .rodata     
+     VAR00003                                  C025       2       2       0   .rodata     
+     VAR00004                                  C027       2       2       0   .rodata     
+     VAR00005                                  C029       2       2       0   .rodata     
+     VAR00006                                  C02B       2       2       0   .rodata     
+     VAR00007                                  C02D       2       2       0   .rodata     
+     VAR00008                                  C02F       2       2       0   .rodata     
+     VAR00009                                  C031       2       2       0   .rodata     
+     VAR00010                                  C033       2       2       0   .rodata     
+     VAR00011                                  C035       2       2       0   .rodata     
+     VAR00012                                  C037       2       2       0   .rodata     
+     VAR00013                                  C039       2       2       0   .rodata     
+     VAR00014                                  C03B       2       2       0   .rodata     
+     VAR00015                                  C03D       2       2       0   .rodata     
 MODULE:                 -- lcd.asm.o --
 - PROCEDURES:
-     lcd_init                                30803A       A      10       2   .text       
-     lcdi1                                   308044      1E      30       0   .text       
-     data8                                   308062       C      12       0   .text       
-     set_lcd_addr                            30806E       E      14       2   .text       
-     clear_lcd                               30807C       C      12       2   .text       
-     type_lcd                                308088       3       3       2   .text       
-     next_char                               30808B       F      15       0   .text       
-     done                                    30809A       2       2       0   .text       
-     write_instr_nibble                      30809C       B      11       3   .text       
-     win                                     3080A7       8       8       0   .text       
-     write_data_nibble                       3080AF       B      11       2   .text       
-     wdn                                     3080BA       8       8       0   .text       
-     write_instr_byte                        3080C2       D      13       3   .text       
-     write_data_byte                         3080CF       D      13       2   .text       
+     lcd_init                                308509       A      10       2   .text       
+     lcdi1                                   308513      1E      30       0   .text       
+     data8                                   308531       C      12       0   .text       
+     set_lcd_addr                            30853D       E      14       2   .text       
+     clear_lcd                               30854B       C      12       0   .text       
+     type_lcd                                308557       3       3       2   .text       
+     next_char                               30855A       F      15       0   .text       
+     done                                    308569       2       2       0   .text       
+     write_instr_nibble                      30856B       B      11       3   .text       
+     win                                     308576       8       8       0   .text       
+     write_data_nibble                       30857E       B      11       2   .text       
+     wdn                                     308589       8       8       0   .text       
+     write_instr_byte                        308591       D      13       3   .text       
+     write_data_byte                         30859E       D      13       2   .text       
 - VARIABLES:
-     VAR00001                                  C01F       1       1       1   .rodata     
-     VAR00002                                  C020       1       1       0   .rodata     
-     VAR00003                                  C021       1       1       0   .rodata     
-     VAR00004                                  C022       1       1       0   .rodata     
-     VAR00005                                  C023       1       1       0   .rodata     
-     VAR00006                                  C024       1       1       0   .rodata     
-     VAR00007                                  C025       1       1       0   .rodata     
-     VAR00008                                  C026       1       1       0   .rodata     
-     VAR00009                                  C027       1       1       0   .rodata     
-     VAR00010                                  C028       1       1       0   .rodata     
-     VAR00011                                  C029       1       1       0   .rodata     
-     VAR00012                                  C02A       1       1       0   .rodata     
-     VAR00013                                  C02B       1       1       0   .rodata     
+     VAR00001                                  C03F       1       1       1   .rodata     
+     VAR00002                                  C040       1       1       0   .rodata     
+     VAR00003                                  C041       1       1       0   .rodata     
+     VAR00004                                  C042       1       1       0   .rodata     
+     VAR00005                                  C043       1       1       0   .rodata     
+     VAR00006                                  C044       1       1       0   .rodata     
+     VAR00007                                  C045       1       1       0   .rodata     
+     VAR00008                                  C046       1       1       0   .rodata     
+     VAR00009                                  C047       1       1       0   .rodata     
+     VAR00010                                  C048       1       1       0   .rodata     
+     VAR00011                                  C049       1       1       0   .rodata     
+     VAR00012                                  C04A       1       1       0   .rodata     
+     VAR00013                                  C04B       1       1       0   .rodata     
 MODULE:                 -- lcdDisp.c.o --
 - PROCEDURES:
-     initLCD                                 3080DC       5       5       2   .text       
-     printLCDStr                             3080E1      11      17       2   .text       
+     initLCD                                 3085AB       5       5       2   .text       
+     printLCDStr                             3085B0      12      18      16   .text       
 - VARIABLES:
 MODULE:                 -- main.c.o --
 - PROCEDURES:
-     main                                    3080F2      4A      74       2   .text       
+     main                                    3085C2      18      24       2   .text       
 - VARIABLES:
-     STRING.Hello.1                            C02C       6       6       1   .rodata1    
 MODULE:                 -- SegDisp.c.o --
 - PROCEDURES:
-     setCharDisplay                          30813C       8       8       8   .text       
+     initDisp                                3085DA       1       1       2   .text       
+     clearDisp                               3085DB       6       6       8   .text       
+     setCharDisplay                          3085E1       8       8      14   .text       
+     segDisp                                 3085E9      47      71      12   .text       
 - VARIABLES:
-     dispChars                                 1104       4       4       1   .bss        
+     NUM_TO_7_SEG_TBL                          1106       A      10       1   .data       
+     dispChars                                 1112       4       4       2   .bss        
 MODULE:                 -- Start12.c.o --
 - PROCEDURES:
-     Init                                    308144      29      41       2   .text       
+     Init                                    308630      29      41       2   .text       
      _Startup                                  C000      15      21       0   .init       
 - VARIABLES:
      _startupData                              C015       6       6       3   .startData  
 - LABELS:
      __SEG_END_SSTACK                          1100       0       0       1               
+MODULE:                 -- switches.c.o --
+- PROCEDURES:
+     initSwitches                            308659       C      12       2   .text       
+     getSwStatus                             308665       4       4       4   .text       
+- VARIABLES:
+MODULE:                 -- CTYPE.C.o (ansibi.lib) --
+- PROCEDURES:
+     isdigit                                 308669       E      14      12   .text       
+- VARIABLES:
+MODULE:                 -- rtshc12.c.o (ansibi.lib) --
+- PROCEDURES:
+     _BSHL                                     C0E2       8       8       1   NON_BANKED  
+- VARIABLES:
 
 *********************************************************************************************
 MODULE STATISTIC
   Name                                      Data   Code  Const
 ---------------------------------------------------------------------------------------------
   mc9s12dg256.c.o                            400      0      0
+  alarm.c.o                                   10     72     32
+  armed.c.o                                    4    594     51
+  config.c.o                                   0    370     67
   delay.asm.o                                  4     58      0
+  keyPad.asm.o                                 0    195     32
   lcd.asm.o                                    0    162     13
-  lcdDisp.c.o                                  0     22      0
-  main.c.o                                     0     74      6
-  SegDisp.c.o                                  4      8      0
+  lcdDisp.c.o                                  0     23      0
+  main.c.o                                     0     24      0
+  SegDisp.c.o                                 14     86      0
   Start12.c.o                                  0     62      0
-  other                                      256     12      2
+  switches.c.o                                 0     16      0
+  CTYPE.C.o (ansibi.lib)                       0     14      0
+  rtshc12.c.o (ansibi.lib)                     0      8      0
+  other                                      256     12     38
 
 *********************************************************************************************
 SECTION USE IN OBJECT-ALLOCATION SECTION
 ---------------------------------------------------------------------------------------------
 SECTION: ".text"
-  delayms_c delayLoop_c delayms delayLoop setDelay polldelay delay_loop 
-  return_true_section lcd_init lcdi1 data8 set_lcd_addr clear_lcd type_lcd 
-  next_char done write_instr_nibble win write_data_nibble wdn write_instr_byte 
-  write_data_byte initLCD printLCDStr main setCharDisplay Init 
+  main_alarm enableAlarm systemArmed checkCode isCodeValid triggerAlarm 
+  configCodes enterMstCode setcode initCodes writeToEE delayms_c delayLoop_c 
+  delayms delayLoop setDelay polldelay delay_loop return_true_section 
+  initKeyPad pollReadKey prk_loop prk_endif2 prk_endif1 prk_endloop readKey 
+  RDK_DO RDK_LP1 RDK_LP2 readKeyCode RKY_ENDIF3 RKY_ENDIF2 RKY_ENDIF1 translate 
+  TR_LOOP TR_endif TR_endwh lcd_init lcdi1 data8 set_lcd_addr clear_lcd 
+  type_lcd next_char done write_instr_nibble win write_data_nibble wdn 
+  write_instr_byte write_data_byte initLCD printLCDStr main initDisp clearDisp 
+  setCharDisplay segDisp Init initSwitches getSwStatus isdigit 
 SECTION: ".data"
-  delayCount zero_location 
+  mult.5 delayCount zero_location NUM_TO_7_SEG_TBL 
 SECTION: ".bss"
-  dispChars 
+  alarmCode.6 dispChars 
 SECTION: ".init"
   _Startup 
 SECTION: ".rodata"
+  cnvTbl VAR00001 VAR00002 VAR00003 VAR00004 VAR00005 VAR00006 VAR00007 
+  VAR00008 VAR00009 VAR00010 VAR00011 VAR00012 VAR00013 VAR00014 VAR00015 
   VAR00001 VAR00002 VAR00003 VAR00004 VAR00005 VAR00006 VAR00007 VAR00008 
   VAR00009 VAR00010 VAR00011 VAR00012 VAR00013 
 SECTION: ".rodata1"
-  STRING.Hello.1 
+  STRING.CEG.Alarm.System.1 STRING.c.Config.a.Arm.2 STRING.Code..1 
+  STRING.....Arming.....2 STRING.....Armed.....3 STRING....Disarming....4 
+  STRING.a.mstr.1.4.other.1 STRING.Bad.entry.2 STRING.Master.code..3 
+  STRING.Code.or..d..4 STRING.Cannot.disable.5 
+SECTION: "NON_BANKED"
+  _BSHL 
 SECTION: ".abs_section_8"
   _PORTE 
 SECTION: ".abs_section_9"
@@ -1527,12 +1642,14 @@ SECTION: ".abs_section_2ae"
   _CAN4RXTSR 
 SECTION: ".abs_section_2be"
   _CAN4TXTSR 
+SECTION: "EEPROM_DATA"
+  alarmCodes 
 
 *********************************************************************************************
 OBJECT LIST SORTED BY ADDRESS
      Name                                      Addr   hSize   dSize     Ref    Section   RLIB
 ---------------------------------------------------------------------------------------------
-     _PORTAB                                      0       2       2       1   .abs_section_0
+     _PORTAB                                      0       2       2       2   .abs_section_0
      _DDRAB                                       2       2       2       1   .abs_section_2
      _PORTE                                       8       1       1       0   .abs_section_8
      _DDRE                                        9       1       1       0   .abs_section_9
@@ -1693,8 +1810,8 @@ OBJECT LIST SORTED BY ADDRESS
      _ECLKDIV                                   110       1       1       0   .abs_section_110
      _ECNFG                                     113       1       1       0   .abs_section_113
      _EPROT                                     114       1       1       0   .abs_section_114
-     _ESTAT                                     115       1       1       0   .abs_section_115
-     _ECMD                                      116       1       1       0   .abs_section_116
+     _ESTAT                                     115       1       1       5   .abs_section_115
+     _ECMD                                      116       1       1       1   .abs_section_116
      _ATD1CTL23                                 122       2       2       0   .abs_section_122
      _ATD1CTL45                                 124       2       2       0   .abs_section_124
      _ATD1STAT0                                 126       1       1       0   .abs_section_126
@@ -1790,7 +1907,7 @@ OBJECT LIST SORTED BY ADDRESS
      _PPSM                                      255       1       1       0   .abs_section_255
      _WOMM                                      256       1       1       0   .abs_section_256
      _MODRR                                     257       1       1       0   .abs_section_257
-     _PTP                                       258       1       1       1   .abs_section_258
+     _PTP                                       258       1       1       4   .abs_section_258
      _PTIP                                      259       1       1       0   .abs_section_259
      _DDRP                                      25A       1       1       1   .abs_section_25a
      _RDRP                                      25B       1       1       0   .abs_section_25b
@@ -1798,12 +1915,12 @@ OBJECT LIST SORTED BY ADDRESS
      _PPSP                                      25D       1       1       0   .abs_section_25d
      _PIEP                                      25E       1       1       0   .abs_section_25e
      _PIFP                                      25F       1       1       0   .abs_section_25f
-     _PTH                                       260       1       1       0   .abs_section_260
+     _PTH                                       260       1       1       1   .abs_section_260
      _PTIH                                      261       1       1       0   .abs_section_261
-     _DDRH                                      262       1       1       0   .abs_section_262
+     _DDRH                                      262       1       1       1   .abs_section_262
      _RDRH                                      263       1       1       0   .abs_section_263
-     _PERH                                      264       1       1       0   .abs_section_264
-     _PPSH                                      265       1       1       0   .abs_section_265
+     _PERH                                      264       1       1       1   .abs_section_264
+     _PPSH                                      265       1       1       1   .abs_section_265
      _PIEH                                      266       1       1       0   .abs_section_266
      _PIFH                                      267       1       1       0   .abs_section_267
      _PTJ                                       268       1       1       1   .abs_section_268
@@ -1873,66 +1990,160 @@ OBJECT LIST SORTED BY ADDRESS
      _CAN4TXDLR                                 2BC       1       1       0   .abs_section_2bc
      _CAN4TXTBPR                                2BD       1       1       0   .abs_section_2bd
      _CAN4TXTSR                                 2BE       2       2       0   .abs_section_2be
-     delayCount                                1100       2       2       3   .data       
-     zero_location                             1102       2       2       0   .data       
-     dispChars                                 1104       4       4       1   .bss        
+     mult.5                                    1100       2       2       4   .data       
+     delayCount                                1102       2       2       3   .data       
+     zero_location                             1104       2       2       0   .data       
+     NUM_TO_7_SEG_TBL                          1106       A      10       1   .data       
+     alarmCode.6                               1110       2       2       4   .bss        
+     dispChars                                 1112       4       4       2   .bss        
+     alarmCodes                                1116       A      10       4   EEPROM_DATA 
      _Startup                                  C000      15      21       0   .init       
-     VAR00001                                  C01F       1       1       1   .rodata     
-     VAR00002                                  C020       1       1       0   .rodata     
-     VAR00003                                  C021       1       1       0   .rodata     
-     VAR00004                                  C022       1       1       0   .rodata     
-     VAR00005                                  C023       1       1       0   .rodata     
-     VAR00006                                  C024       1       1       0   .rodata     
-     VAR00007                                  C025       1       1       0   .rodata     
-     VAR00008                                  C026       1       1       0   .rodata     
-     VAR00009                                  C027       1       1       0   .rodata     
-     VAR00010                                  C028       1       1       0   .rodata     
-     VAR00011                                  C029       1       1       0   .rodata     
-     VAR00012                                  C02A       1       1       0   .rodata     
-     VAR00013                                  C02B       1       1       0   .rodata     
-     STRING.Hello.1                            C02C       6       6       1   .rodata1    
-     delayms_c                               308000       3       3       0   .text       
-     delayLoop_c                             308003       7       7       0   .text       
-     delayms                                 30800A       3       3       6   .text       
-     delayLoop                               30800D       7       7       0   .text       
-     setDelay                                308014       4       4       2   .text       
-     polldelay                               308018       6       6       2   .text       
-     delay_loop                              30801E      16      22       0   .text       
-     return_true_section                     308034       6       6       0   .text       
-     lcd_init                                30803A       A      10       2   .text       
-     lcdi1                                   308044      1E      30       0   .text       
-     data8                                   308062       C      12       0   .text       
-     set_lcd_addr                            30806E       E      14       2   .text       
-     clear_lcd                               30807C       C      12       2   .text       
-     type_lcd                                308088       3       3       2   .text       
-     next_char                               30808B       F      15       0   .text       
-     done                                    30809A       2       2       0   .text       
-     write_instr_nibble                      30809C       B      11       3   .text       
-     win                                     3080A7       8       8       0   .text       
-     write_data_nibble                       3080AF       B      11       2   .text       
-     wdn                                     3080BA       8       8       0   .text       
-     write_instr_byte                        3080C2       D      13       3   .text       
-     write_data_byte                         3080CF       D      13       2   .text       
-     initLCD                                 3080DC       5       5       2   .text       
-     printLCDStr                             3080E1      11      17       2   .text       
-     main                                    3080F2      4A      74       2   .text       
-     setCharDisplay                          30813C       8       8       8   .text       
-     Init                                    308144      29      41       2   .text       
+     cnvTbl                                    C01F       2       2       1   .rodata     
+     VAR00001                                  C021       2       2       0   .rodata     
+     VAR00002                                  C023       2       2       0   .rodata     
+     VAR00003                                  C025       2       2       0   .rodata     
+     VAR00004                                  C027       2       2       0   .rodata     
+     VAR00005                                  C029       2       2       0   .rodata     
+     VAR00006                                  C02B       2       2       0   .rodata     
+     VAR00007                                  C02D       2       2       0   .rodata     
+     VAR00008                                  C02F       2       2       0   .rodata     
+     VAR00009                                  C031       2       2       0   .rodata     
+     VAR00010                                  C033       2       2       0   .rodata     
+     VAR00011                                  C035       2       2       0   .rodata     
+     VAR00012                                  C037       2       2       0   .rodata     
+     VAR00013                                  C039       2       2       0   .rodata     
+     VAR00014                                  C03B       2       2       0   .rodata     
+     VAR00015                                  C03D       2       2       0   .rodata     
+     VAR00001                                  C03F       1       1       1   .rodata     
+     VAR00002                                  C040       1       1       0   .rodata     
+     VAR00003                                  C041       1       1       0   .rodata     
+     VAR00004                                  C042       1       1       0   .rodata     
+     VAR00005                                  C043       1       1       0   .rodata     
+     VAR00006                                  C044       1       1       0   .rodata     
+     VAR00007                                  C045       1       1       0   .rodata     
+     VAR00008                                  C046       1       1       0   .rodata     
+     VAR00009                                  C047       1       1       0   .rodata     
+     VAR00010                                  C048       1       1       0   .rodata     
+     VAR00011                                  C049       1       1       0   .rodata     
+     VAR00012                                  C04A       1       1       0   .rodata     
+     VAR00013                                  C04B       1       1       0   .rodata     
+     STRING.CEG.Alarm.System.1                 C04C      11      17       1   .rodata1    
+     STRING.c.Config.a.Arm.2                   C05D       F      15       1   .rodata1    
+     STRING.Code..1                            C06C       6       6       1   .rodata1    
+     STRING.....Arming.....2                   C072       F      15       1   .rodata1    
+     STRING.....Armed.....3                    C081       E      14       1   .rodata1    
+     STRING....Disarming....4                  C08F      10      16       1   .rodata1    
+     STRING.a.mstr.1.4.other.1                 C09F      11      17       1   .rodata1    
+     STRING.Bad.entry.2                        C0B0       A      10       2   .rodata1    
+     STRING.Master.code..3                     C0BA       D      13       1   .rodata1    
+     STRING.Code.or..d..4                      C0C7       C      12       1   .rodata1    
+     STRING.Cannot.disable.5                   C0D3       F      15       1   .rodata1    
+     _BSHL                                     C0E2       8       8       1   NON_BANKED  
+     main_alarm                              308000      48      72       2   .text       
+     enableAlarm                             308048      A7     167       3   .text       
+     systemArmed                             3080EF      DC     220       7   .text       
+     checkCode                               3081CB      45      69      10   .text       
+     isCodeValid                             308210      28      40       2   .text       
+     triggerAlarm                            308238      62      98       4   .text       
+     configCodes                             30829A      48      72       2   .text       
+     enterMstCode                            3082E2      59      89       2   .text       
+     setcode                                 30833B      84     132       2   .text       
+     initCodes                               3083BF      10      16       2   .text       
+     writeToEE                               3083CF      3D      61       4   .text       
+     delayms_c                               30840C       3       3       2   .text       
+     delayLoop_c                             30840F       7       7       0   .text       
+     delayms                                 308416       3       3       9   .text       
+     delayLoop                               308419       7       7       0   .text       
+     setDelay                                308420       4       4       2   .text       
+     polldelay                               308424       6       6       2   .text       
+     delay_loop                              30842A      16      22       0   .text       
+     return_true_section                     308440       6       6       0   .text       
+     initKeyPad                              308446       9       9       2   .text       
+     pollReadKey                             30844F       F      15       6   .text       
+     prk_loop                                30845E      19      25       0   .text       
+     prk_endif2                              308477       0       0       0   .text       
+     prk_endif1                              308477       3       3       0   .text       
+     prk_endloop                             30847A       6       6       0   .text       
+     readKey                                 308480       3       3      11   .text       
+     RDK_DO                                  308483       6       6       0   .text       
+     RDK_LP1                                 308489      21      33       0   .text       
+     RDK_LP2                                 3084AA      15      21       0   .text       
+     readKeyCode                             3084BF      26      38       1   .text       
+     RKY_ENDIF3                              3084E5       0       0       0   .text       
+     RKY_ENDIF2                              3084E5       0       0       0   .text       
+     RKY_ENDIF1                              3084E5       3       3       0   .text       
+     translate                               3084E8       C      12       1   .text       
+     TR_LOOP                                 3084F4       A      10       0   .text       
+     TR_endif                                3084FE       7       7       0   .text       
+     TR_endwh                                308505       4       4       0   .text       
+     lcd_init                                308509       A      10       2   .text       
+     lcdi1                                   308513      1E      30       0   .text       
+     data8                                   308531       C      12       0   .text       
+     set_lcd_addr                            30853D       E      14       2   .text       
+     clear_lcd                               30854B       C      12       0   .text       
+     type_lcd                                308557       3       3       2   .text       
+     next_char                               30855A       F      15       0   .text       
+     done                                    308569       2       2       0   .text       
+     write_instr_nibble                      30856B       B      11       3   .text       
+     win                                     308576       8       8       0   .text       
+     write_data_nibble                       30857E       B      11       2   .text       
+     wdn                                     308589       8       8       0   .text       
+     write_instr_byte                        308591       D      13       3   .text       
+     write_data_byte                         30859E       D      13       2   .text       
+     initLCD                                 3085AB       5       5       2   .text       
+     printLCDStr                             3085B0      12      18      16   .text       
+     main                                    3085C2      18      24       2   .text       
+     initDisp                                3085DA       1       1       2   .text       
+     clearDisp                               3085DB       6       6       8   .text       
+     setCharDisplay                          3085E1       8       8      14   .text       
+     segDisp                                 3085E9      47      71      12   .text       
+     Init                                    308630      29      41       2   .text       
+     initSwitches                            308659       C      12       2   .text       
+     getSwStatus                             308665       4       4       4   .text       
+     isdigit                                 308669       E      14      12   .text       
 
 *********************************************************************************************
 UNUSED-OBJECTS SECTION
 ---------------------------------------------------------------------------------------------
 NOT USED PROCEDURES
-SegDisp.c.o:
-  initDisp clearDisp segDisp 
+CTYPE.C.o (ansibi.lib):
+  isalnum isalpha iscntrl isgraph islower isprint ispunct isspace isupper 
+  isxdigit tolower toupper 
+rtshc12.c.o (ansibi.lib):
+  _BSHRS _BSHRU _BDIVMODU _BDIVMODS _ISHL _ISHRU _ISHRS _LSHL _LSHRU _LSHRS 
+  _LADD _LSUB _LAND _LOR _LXOR _LCMP _LCMP_P _LCMP_PP _LNEG _LCOM _LINC _LDEC 
+  _LMUL _LMULU16x32 _LMULS16x32 _lDivMod _LDIVU _NEG_P _LDIVS _LMODU _LMODS 
+  _ILSEXT _COPY _CASE_DIRECT _CASE_DIRECT_BYTE _CASE_CHECKED _CASE_CHECKED_BYTE 
+  _CASE_SEARCH _CASE_SEARCH_BYTE _CASE_SEARCH_8 _CASE_SEARCH_8_BYTE _FCALL 
+  _FPCMP 
 NOT USED VARIABLES
-SegDisp.c.o:
-  NUM_TO_7_SEG_TBL 
+CTYPE.C.o (ansibi.lib):
+  _ctype 
+rtshc12.c.o (ansibi.lib):
+  _PowOfTwo_8 _PowOfTwo_16 _PowOfTwo_32 errno 
 
 *********************************************************************************************
 COPYDOWN SECTION
 ---------------------------------------------------------------------------------------------
-------- ROM-ADDRESS: 0xC032 ---- SIZE       2 ---
+------- ROM-ADDRESS: 0xC0EA ---- SIZE       4 ---
+Filling bytes inserted
+ 00201100
+------- ROM-ADDRESS: 0xC0EE ---- RAM-ADDRESS: 0x1100 ---- SIZE       2 ---
+Name of initialized Object : mult.5
+ 03E8
+------- ROM-ADDRESS: 0xC0F0 ---- SIZE       4 ---
+Filling bytes inserted
+ 00000000
+------- ROM-ADDRESS: 0xC0F4 ---- RAM-ADDRESS: 0x1106 ---- SIZE      10 ---
+Name of initialized Object : NUM_TO_7_SEG_TBL
+ 3F065B4F66 6D7D077F67
+------- ROM-ADDRESS: 0xC0FE ---- SIZE       8 ---
+Filling bytes inserted
+ 0000000000 000000
+------- ROM-ADDRESS: 0xC106 ---- RAM-ADDRESS: 0x1118 ---- SIZE       8 ---
+Name of initialized Object : alarmCodes:2
+ FFFFFFFFFF FFFFFF
+------- ROM-ADDRESS: 0xC10E ---- SIZE       2 ---
 Filling bytes inserted
  0000
 
@@ -1940,12 +2151,39 @@ Filling bytes inserted
 OBJECT-DEPENDENCIES SECTION
 ---------------------------------------------------------------------------------------------
 _Startup                  USES __SEG_END_SSTACK Init main 
+main_alarm                USES initCodes initKeyPad initSwitches initLCD 
+                                initDisp STRING.CEG.Alarm.System.1 printLCDStr 
+                                STRING.c.Config.a.Arm.2 readKey configCodes enableAlarm 
+enableAlarm               USES STRING.Code..1 enableAlarm readKey checkCode 
+                                STRING.....Arming.....2 setCharDisplay segDisp pollReadKey isdigit 
+                                clearDisp systemArmed printLCDStr 
+systemArmed               USES STRING.....Armed.....3 systemArmed checkCode 
+                                getSwStatus STRING....Disarming....4 setCharDisplay 
+                                segDisp clearDisp triggerAlarm pollReadKey isdigit 
+                                printLCDStr 
+checkCode                 USES isdigit mult.5 alarmCode.6 isCodeValid 
+isCodeValid               USES alarmCodes 
+triggerAlarm              USES segDisp pollReadKey isdigit checkCode clearDisp 
+                                setCharDisplay 
+configCodes               USES enterMstCode STRING.a.mstr.1.4.other.1 
+                                printLCDStr readKey setcode STRING.Bad.entry.2 
+enterMstCode              USES STRING.Master.code..3 printLCDStr readKey 
+                                isdigit alarmCodes 
+setcode                   USES STRING.Code.or..d..4 readKey 
+                                STRING.Cannot.disable.5 isdigit STRING.Bad.entry.2 writeToEE 
+                                printLCDStr 
+initCodes                 USES alarmCodes writeToEE 
+writeToEE                 USES alarmCodes _ESTAT _ECMD 
 delayms_c                 USES setDelay 
 delayLoop_c               USES polldelay 
 delayms                   USES setDelay 
 delayLoop                 USES polldelay 
 setDelay                  USES delayCount 
 delay_loop                USES delayCount 
+prk_loop                  USES delayms readKey 
+RDK_LP1                   USES delayms readKeyCode 
+RDK_LP2                   USES delayms translate 
+translate                 USES cnvTbl 
 lcd_init                  USES VAR00001 
 lcdi1                     USES write_instr_nibble delayms write_instr_byte 
 data8                     USES write_data_byte delayms 
@@ -1955,11 +2193,15 @@ next_char                 USES write_data_byte delayms
 write_instr_byte          USES write_instr_nibble 
 write_data_byte           USES write_data_nibble 
 initLCD                   USES lcd_init 
-printLCDStr               USES clear_lcd set_lcd_addr type_lcd 
-main                      USES _DDRAB _DDRJ _DDRP _PTJ _PTP _PORTAB 
-                                setCharDisplay initLCD STRING.Hello.1 printLCDStr 
+printLCDStr               USES set_lcd_addr type_lcd 
+main                      USES _DDRAB _DDRJ _DDRP _PTJ _PTP _PORTAB main_alarm 
+clearDisp                 USES _PTP 
 setCharDisplay            USES dispChars 
+segDisp                   USES _BSHL _PTP dispChars NUM_TO_7_SEG_TBL _PORTAB 
+                                delayms_c 
 Init                      USES _startupData 
+initSwitches              USES _DDRH _PERH _PPSH 
+getSwStatus               USES _PTH 
 
 *********************************************************************************************
 DEPENDENCY TREE
@@ -1968,32 +2210,122 @@ DEPENDENCY TREE
  | 
  +- main                
  |  | 
- |  +- setCharDisplay      
- |  |    
- |  +- initLCD             
- |  |  | 
- |  |  +- lcd_init            
- |  |       
- |  +- printLCDStr         
+ |  +- main_alarm          
  |     | 
- |     +- clear_lcd           
+ |     +- initCodes           
  |     |  | 
- |     |  +- write_instr_byte    
+ |     |  +- writeToEE           
+ |     |       
+ |     +- initKeyPad          
+ |     |    
+ |     +- initSwitches        
+ |     |    
+ |     +- initLCD             
+ |     |  | 
+ |     |  +- lcd_init            
+ |     |       
+ |     +- initDisp            
+ |     |    
+ |     +- printLCDStr         
+ |     |  | 
+ |     |  +- set_lcd_addr        
  |     |  |  | 
- |     |  |  +- write_instr_nibble  
- |     |  |       
- |     |  +- delayms             
- |     |     | 
- |     |     +- setDelay            
- |     |          
- |     +- set_lcd_addr        
+ |     |  |  +- write_instr_byte    
+ |     |  |  |  | 
+ |     |  |  |  +- write_instr_nibble  
+ |     |  |  |       
+ |     |  |  +- delayms             
+ |     |  |     | 
+ |     |  |     +- setDelay            
+ |     |  |          
+ |     |  +- type_lcd            
+ |     |       
+ |     +- readKey             
+ |     |    
+ |     +- configCodes         
  |     |  | 
- |     |  +- write_instr_byte     (see above)
+ |     |  +- enterMstCode        
+ |     |  |  | 
+ |     |  |  +- printLCDStr          (see above)
+ |     |  |  |  
+ |     |  |  +- readKey              (see above)
+ |     |  |  |  
+ |     |  |  +- isdigit             
+ |     |  |       
+ |     |  +- printLCDStr          (see above)
  |     |  |  
- |     |  +- delayms              (see above)
- |     |     
- |     +- type_lcd            
- |          
+ |     |  +- readKey              (see above)
+ |     |  |  
+ |     |  +- setcode             
+ |     |     | 
+ |     |     +- readKey              (see above)
+ |     |     |  
+ |     |     +- isdigit              (see above)
+ |     |     |  
+ |     |     +- writeToEE            (see above)
+ |     |     |  
+ |     |     +- printLCDStr          (see above)
+ |     |        
+ |     +- enableAlarm         
+ |        | 
+ |        +- readKey              (see above)
+ |        |  
+ |        +- checkCode           
+ |        |  | 
+ |        |  +- isdigit              (see above)
+ |        |  |  
+ |        |  +- isCodeValid         
+ |        |       
+ |        +- setCharDisplay      
+ |        |    
+ |        +- segDisp             
+ |        |  | 
+ |        |  +- _BSHL               
+ |        |  |    
+ |        |  +- delayms_c           
+ |        |     | 
+ |        |     +- setDelay             (see above)
+ |        |        
+ |        +- pollReadKey         
+ |        |    
+ |        +- isdigit              (see above)
+ |        |  
+ |        +- clearDisp           
+ |        |    
+ |        +- systemArmed         
+ |        |  | 
+ |        |  +- checkCode            (see above)
+ |        |  |  
+ |        |  +- getSwStatus         
+ |        |  |    
+ |        |  +- setCharDisplay       (see above)
+ |        |  |  
+ |        |  +- segDisp              (see above)
+ |        |  |  
+ |        |  +- clearDisp            (see above)
+ |        |  |  
+ |        |  +- triggerAlarm        
+ |        |  |  | 
+ |        |  |  +- segDisp              (see above)
+ |        |  |  |  
+ |        |  |  +- pollReadKey          (see above)
+ |        |  |  |  
+ |        |  |  +- isdigit              (see above)
+ |        |  |  |  
+ |        |  |  +- checkCode            (see above)
+ |        |  |  |  
+ |        |  |  +- clearDisp            (see above)
+ |        |  |  |  
+ |        |  |  +- setCharDisplay       (see above)
+ |        |  |     
+ |        |  +- pollReadKey          (see above)
+ |        |  |  
+ |        |  +- isdigit              (see above)
+ |        |  |  
+ |        |  +- printLCDStr          (see above)
+ |        |     
+ |        +- printLCDStr          (see above)
+ |           
  +- _Startup            
     | 
     +- Init                
@@ -2007,5 +2339,5 @@ STATISTIC SECTION
 ExeFile:
 --------
 Number of blocks to be downloaded: 7
-Total size of all blocks to be downloaded: 419
+Total size of all blocks to be downloaded: 1929
 
