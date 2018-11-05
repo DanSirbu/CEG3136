@@ -35,7 +35,7 @@ int alarmCodes[NUMCODES] = { 0x0000, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF };
 void main_alarm()
 {
    byte select;
-   PLL_init();
+   //PLL_init();
    // Initialisation 
    initCodes();  
    initKeyPad();

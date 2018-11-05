@@ -32,3 +32,5 @@
 #include "delay_asm.h" // Delay Module
 #include "lcdDisp.h"  // LCD Display Module
 #include "SegDisp.h"  // Segment Display Module
+
+void main_alarm();

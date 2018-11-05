@@ -16,17 +16,8 @@ void main(void) {
   PTP = 0x00;         // enable all 7-segment displays
   // turn on every other led and segment on 7-seg displays
   PORTB   = 0xff;
-  //initLCD();
-  //printLCDStr("Hello", 0);       
 
-  setCharDisplay('2', (byte)0);
-  setCharDisplay('1', (byte)1);
-  setCharDisplay('2', (byte)2);
-  setCharDisplay('4', (byte)3);
-  //segDisp();
-
-  initLCD();
-  printLCDStr("Hello", 0);
-
+  alarm_main();
+  
   for(;;) {} /* wait forever */
 }
