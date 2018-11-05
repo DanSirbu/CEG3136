@@ -12,8 +12,8 @@ void main(void) {
   DDRB  = 0xff;       // Port B is output
   DDRJ  = 0xff;       // Port J is output
   DDRP  = 0xff;       // Port P is output
-  PTJ = 0x00;         // enable LED
-  PTP = 0x00;         // enable all 7-segment displays
+  PTJ = 0xff;         // enable LED
+  PTP = 0xff;         // enable all 7-segment displays
   // turn on every other led and segment on 7-seg displays
   PORTB   = 0xff;
 

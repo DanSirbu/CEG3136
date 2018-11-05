@@ -44,6 +44,12 @@ void printLCDStr(char *str, byte lineno)
 	} else {
 	  set_lcd_addr(0x40);
 	}
+	type_lcd("                ");
+	if(lineno == 0) {
+	 	set_lcd_addr(0x00);
+	} else {
+	  set_lcd_addr(0x40);
+	}
   type_lcd(str);
   
 }

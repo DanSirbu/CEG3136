@@ -35,7 +35,7 @@ _startupData is allocated at 0xC015 and uses 6 Bytes
 extern struct _tagStartup {
   unsigned nofZeroOut     1
   _Range   pZeroOut       0x1100     32
-  _Copy    *toCopyDownBeg 0xC0EA
+  _Copy    *toCopyDownBeg 0xC0FB
 } _startupData;
 
 *********************************************************************************************
@@ -45,10 +45,10 @@ Section Name                    Size  Type     From       To       Segment
 .init                             21     R     0xC000     0xC014   ROM_C000
 .startData                        10     R     0xC015     0xC01E   ROM_C000
 .rodata                           45     R     0xC01F     0xC04B   ROM_C000
-.rodata1                         150     R     0xC04C     0xC0E1   ROM_C000
-NON_BANKED                         8     R     0xC0E2     0xC0E9   ROM_C000
-.copy                             38     R     0xC0EA     0xC10F   ROM_C000
-.text                           1656     R   0x308000   0x308677   PAGE_30
+.rodata1                         167     R     0xC04C     0xC0F2   ROM_C000
+NON_BANKED                         8     R     0xC0F3     0xC0FA   ROM_C000
+.copy                             38     R     0xC0FB     0xC120   ROM_C000
+.text                           1702     R   0x308000   0x3086A5   PAGE_30
 .stack                           256   R/W     0x1000     0x10FF   RAM
 .data                             16   R/W     0x1100     0x110F   RAM
 .abs_section_8                     1   N/I        0x8        0x8   .absSeg0
@@ -397,7 +397,7 @@ EEPROM_DATA                       10   R/W     0x1116     0x111F   RAM
 .vectSeg341_vect                   2     R     0xFFFE     0xFFFF   .vectSeg341
 
 Summary of section sizes per section type:
-READ_ONLY (R):         78A (dec:     1930)
+READ_ONLY (R):         7C9 (dec:     1993)
 READ_WRITE (R/W):      120 (dec:      288)
 NO_INIT (N/I):         190 (dec:      400)
 
@@ -696,7 +696,7 @@ MODULE:                 -- mc9s12dg256.c.o --
      _CAN4TXDSR7                                2BB       1       1       0   .abs_section_2bb
      _CAN4TXDLR                                 2BC       1       1       0   .abs_section_2bc
      _CAN4TXTBPR                                2BD       1       1       0   .abs_section_2bd
-     _PORTAB                                      0       2       2       2   .abs_section_0
+     _PORTAB                                      0       2       2       3   .abs_section_0
      _DDRAB                                       2       2       2       1   .abs_section_2
      _PARTID                                     1A       2       2       0   .abs_section_1a
      _TCNT                                       44       2       2       0   .abs_section_44
@@ -844,9 +844,9 @@ MODULE:                 -- lcd.asm.o --
      lcd_init                                30850A       A      10       2   .text       
      lcdi1                                   308514      1E      30       0   .text       
      data8                                   308532       C      12       0   .text       
-     set_lcd_addr                            30853E       E      14       2   .text       
+     set_lcd_addr                            30853E       E      14       4   .text       
      clear_lcd                               30854C       C      12       0   .text       
-     type_lcd                                308558       3       3       2   .text       
+     type_lcd                                308558       3       3       4   .text       
      next_char                               30855B       F      15       0   .text       
      done                                    30856A       2       2       0   .text       
      write_instr_nibble                      30856C       B      11       3   .text       
@@ -872,24 +872,25 @@ MODULE:                 -- lcd.asm.o --
 MODULE:                 -- lcdDisp.c.o --
 - PROCEDURES:
      initLCD                                 3085AC       5       5       2   .text       
-     printLCDStr                             3085B1      12      18      16   .text       
+     printLCDStr                             3085B1      27      39      16   .text       
 - VARIABLES:
+     STRING..................1                 C0E2      11      17       1   .rodata1    
 MODULE:                 -- main.c.o --
 - PROCEDURES:
-     main                                    3085C3      18      24       2   .text       
+     main                                    3085D8      18      24       2   .text       
 - VARIABLES:
 MODULE:                 -- SegDisp.c.o --
 - PROCEDURES:
-     initDisp                                3085DB       1       1       2   .text       
-     clearDisp                               3085DC       6       6       8   .text       
-     setCharDisplay                          3085E2       8       8      14   .text       
-     segDisp                                 3085EA      47      71      12   .text       
+     initDisp                                3085F0       A      10       2   .text       
+     clearDisp                               3085FA       6       6       8   .text       
+     setCharDisplay                          308600       8       8      14   .text       
+     segDisp                                 308608      57      87      12   .text       
 - VARIABLES:
      NUM_TO_7_SEG_TBL                          1106       A      10       1   .data       
-     dispChars                                 1112       4       4       2   .bss        
+     dispChars                                 1112       4       4       4   .bss        
 MODULE:                 -- Start12.c.o --
 - PROCEDURES:
-     Init                                    308631      29      41       2   .text       
+     Init                                    30865F      29      41       2   .text       
      _Startup                                  C000      15      21       0   .init       
 - VARIABLES:
      _startupData                              C015       6       6       3   .startData  
@@ -897,16 +898,16 @@ MODULE:                 -- Start12.c.o --
      __SEG_END_SSTACK                          1100       0       0       1               
 MODULE:                 -- switches.c.o --
 - PROCEDURES:
-     initSwitches                            30865A       C      12       2   .text       
-     getSwStatus                             308666       4       4       4   .text       
+     initSwitches                            308688       C      12       2   .text       
+     getSwStatus                             308694       4       4       4   .text       
 - VARIABLES:
 MODULE:                 -- CTYPE.C.o (ansibi.lib) --
 - PROCEDURES:
-     isdigit                                 30866A       E      14      12   .text       
+     isdigit                                 308698       E      14      12   .text       
 - VARIABLES:
 MODULE:                 -- rtshc12.c.o (ansibi.lib) --
 - PROCEDURES:
-     _BSHL                                     C0E2       8       8       1   NON_BANKED  
+     _BSHL                                     C0F3       8       8       1   NON_BANKED  
 - VARIABLES:
 
 *********************************************************************************************
@@ -920,9 +921,9 @@ MODULE STATISTIC
   delay.asm.o                                  4     58      0
   keyPad.asm.o                                 0    196     32
   lcd.asm.o                                    0    162     13
-  lcdDisp.c.o                                  0     23      0
+  lcdDisp.c.o                                  0     44     17
   main.c.o                                     0     24      0
-  SegDisp.c.o                                 14     86      0
+  SegDisp.c.o                                 14    111      0
   Start12.c.o                                  0     62      0
   switches.c.o                                 0     16      0
   CTYPE.C.o (ansibi.lib)                       0     14      0
@@ -957,7 +958,7 @@ SECTION: ".rodata1"
   STRING.CEG.Alarm.System.1 STRING.c.Config.a.Arm.2 STRING.Code..1 
   STRING.....Arming.....2 STRING.....Armed.....3 STRING....Disarming....4 
   STRING.a.mstr.1.4.other.1 STRING.Bad.entry.2 STRING.Master.code..3 
-  STRING.Code.or..d..4 STRING.Cannot.disable.5 
+  STRING.Code.or..d..4 STRING.Cannot.disable.5 STRING..................1 
 SECTION: "NON_BANKED"
   _BSHL 
 SECTION: ".abs_section_8"
@@ -1649,7 +1650,7 @@ SECTION: "EEPROM_DATA"
 OBJECT LIST SORTED BY ADDRESS
      Name                                      Addr   hSize   dSize     Ref    Section   RLIB
 ---------------------------------------------------------------------------------------------
-     _PORTAB                                      0       2       2       2   .abs_section_0
+     _PORTAB                                      0       2       2       3   .abs_section_0
      _DDRAB                                       2       2       2       1   .abs_section_2
      _PORTE                                       8       1       1       0   .abs_section_8
      _DDRE                                        9       1       1       0   .abs_section_9
@@ -1995,7 +1996,7 @@ OBJECT LIST SORTED BY ADDRESS
      zero_location                             1104       2       2       0   .data       
      NUM_TO_7_SEG_TBL                          1106       A      10       1   .data       
      alarmCode.6                               1110       2       2       4   .bss        
-     dispChars                                 1112       4       4       2   .bss        
+     dispChars                                 1112       4       4       4   .bss        
      alarmCodes                                1116       A      10       4   EEPROM_DATA 
      _Startup                                  C000      15      21       0   .init       
      cnvTbl                                    C01F       2       2       1   .rodata     
@@ -2038,7 +2039,8 @@ OBJECT LIST SORTED BY ADDRESS
      STRING.Master.code..3                     C0BA       D      13       1   .rodata1    
      STRING.Code.or..d..4                      C0C7       C      12       1   .rodata1    
      STRING.Cannot.disable.5                   C0D3       F      15       1   .rodata1    
-     _BSHL                                     C0E2       8       8       1   NON_BANKED  
+     STRING..................1                 C0E2      11      17       1   .rodata1    
+     _BSHL                                     C0F3       8       8       1   NON_BANKED  
      main_alarm                              308000      48      72       2   .text       
      enableAlarm                             308048      A7     167       3   .text       
      systemArmed                             3080EF      DC     220       7   .text       
@@ -2079,9 +2081,9 @@ OBJECT LIST SORTED BY ADDRESS
      lcd_init                                30850A       A      10       2   .text       
      lcdi1                                   308514      1E      30       0   .text       
      data8                                   308532       C      12       0   .text       
-     set_lcd_addr                            30853E       E      14       2   .text       
+     set_lcd_addr                            30853E       E      14       4   .text       
      clear_lcd                               30854C       C      12       0   .text       
-     type_lcd                                308558       3       3       2   .text       
+     type_lcd                                308558       3       3       4   .text       
      next_char                               30855B       F      15       0   .text       
      done                                    30856A       2       2       0   .text       
      write_instr_nibble                      30856C       B      11       3   .text       
@@ -2091,16 +2093,16 @@ OBJECT LIST SORTED BY ADDRESS
      write_instr_byte                        308592       D      13       3   .text       
      write_data_byte                         30859F       D      13       2   .text       
      initLCD                                 3085AC       5       5       2   .text       
-     printLCDStr                             3085B1      12      18      16   .text       
-     main                                    3085C3      18      24       2   .text       
-     initDisp                                3085DB       1       1       2   .text       
-     clearDisp                               3085DC       6       6       8   .text       
-     setCharDisplay                          3085E2       8       8      14   .text       
-     segDisp                                 3085EA      47      71      12   .text       
-     Init                                    308631      29      41       2   .text       
-     initSwitches                            30865A       C      12       2   .text       
-     getSwStatus                             308666       4       4       4   .text       
-     isdigit                                 30866A       E      14      12   .text       
+     printLCDStr                             3085B1      27      39      16   .text       
+     main                                    3085D8      18      24       2   .text       
+     initDisp                                3085F0       A      10       2   .text       
+     clearDisp                               3085FA       6       6       8   .text       
+     setCharDisplay                          308600       8       8      14   .text       
+     segDisp                                 308608      57      87      12   .text       
+     Init                                    30865F      29      41       2   .text       
+     initSwitches                            308688       C      12       2   .text       
+     getSwStatus                             308694       4       4       4   .text       
+     isdigit                                 308698       E      14      12   .text       
 
 *********************************************************************************************
 UNUSED-OBJECTS SECTION
@@ -2125,25 +2127,25 @@ rtshc12.c.o (ansibi.lib):
 *********************************************************************************************
 COPYDOWN SECTION
 ---------------------------------------------------------------------------------------------
-------- ROM-ADDRESS: 0xC0EA ---- SIZE       4 ---
+------- ROM-ADDRESS: 0xC0FB ---- SIZE       4 ---
 Filling bytes inserted
  00201100
-------- ROM-ADDRESS: 0xC0EE ---- RAM-ADDRESS: 0x1100 ---- SIZE       2 ---
+------- ROM-ADDRESS: 0xC0FF ---- RAM-ADDRESS: 0x1100 ---- SIZE       2 ---
 Name of initialized Object : mult.5
  03E8
-------- ROM-ADDRESS: 0xC0F0 ---- SIZE       4 ---
+------- ROM-ADDRESS: 0xC101 ---- SIZE       4 ---
 Filling bytes inserted
  00000000
-------- ROM-ADDRESS: 0xC0F4 ---- RAM-ADDRESS: 0x1106 ---- SIZE      10 ---
+------- ROM-ADDRESS: 0xC105 ---- RAM-ADDRESS: 0x1106 ---- SIZE      10 ---
 Name of initialized Object : NUM_TO_7_SEG_TBL
  3F065B4F66 6D7D077F67
-------- ROM-ADDRESS: 0xC0FE ---- SIZE       8 ---
+------- ROM-ADDRESS: 0xC10F ---- SIZE       8 ---
 Filling bytes inserted
  0000000000 000000
-------- ROM-ADDRESS: 0xC106 ---- RAM-ADDRESS: 0x1118 ---- SIZE       8 ---
+------- ROM-ADDRESS: 0xC117 ---- RAM-ADDRESS: 0x1118 ---- SIZE       8 ---
 Name of initialized Object : alarmCodes:2
  FFFFFFFFFF FFFFFF
-------- ROM-ADDRESS: 0xC10E ---- SIZE       2 ---
+------- ROM-ADDRESS: 0xC11F ---- SIZE       2 ---
 Filling bytes inserted
  0000
 
@@ -2193,11 +2195,12 @@ next_char                 USES write_data_byte delayms
 write_instr_byte          USES write_instr_nibble 
 write_data_byte           USES write_data_nibble 
 initLCD                   USES lcd_init 
-printLCDStr               USES set_lcd_addr type_lcd 
+printLCDStr               USES set_lcd_addr STRING..................1 type_lcd 
 main                      USES _DDRAB _DDRJ _DDRP _PTJ _PTP _PORTAB main_alarm 
+initDisp                  USES dispChars 
 clearDisp                 USES _PTP 
 setCharDisplay            USES dispChars 
-segDisp                   USES _BSHL _PTP dispChars NUM_TO_7_SEG_TBL _PORTAB 
+segDisp                   USES _BSHL _PTP dispChars _PORTAB NUM_TO_7_SEG_TBL 
                                 delayms_c 
 Init                      USES _startupData 
 initSwitches              USES _DDRH _PERH _PPSH 
@@ -2339,5 +2342,5 @@ STATISTIC SECTION
 ExeFile:
 --------
 Number of blocks to be downloaded: 7
-Total size of all blocks to be downloaded: 1930
+Total size of all blocks to be downloaded: 1993
 

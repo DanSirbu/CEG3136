@@ -27,7 +27,10 @@ void initDisp(void)
     //PORT B connects to the Anode
     //PB0-PB7
     //PP0-PP3 controls common cathode
-
+    dispChars[0] = ' ';
+    dispChars[1] = ' ';
+    dispChars[2] = ' ';
+    dispChars[3] = ' ';
 }
 
 /*---------------------------------------------
@@ -72,7 +75,13 @@ void segDisp(void)
         int i;
         for(i=0; i<4; i++) {
             PTP = 0xF0 | ~(1 << i);
-            PORTB = NUM_TO_7_SEG_TBL[CHAR_TO_NUM(dispChars[i])];
+            if(dispChars[i] == ' ') {
+                    PORTB = 0x0;
+            } else if (dispChars[i] == 'A') {
+                    PORTB = 0x77;
+            } else {
+              PORTB = NUM_TO_7_SEG_TBL[CHAR_TO_NUM(dispChars[i])];
+            }
             delayms_c(1);
         }
     }
