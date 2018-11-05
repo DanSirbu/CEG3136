@@ -48,7 +48,7 @@ Section Name                    Size  Type     From       To       Segment
 .rodata1                         150     R     0xC04C     0xC0E1   ROM_C000
 NON_BANKED                         8     R     0xC0E2     0xC0E9   ROM_C000
 .copy                             38     R     0xC0EA     0xC10F   ROM_C000
-.text                           1655     R   0x308000   0x308676   PAGE_30
+.text                           1656     R   0x308000   0x308677   PAGE_30
 .stack                           256   R/W     0x1000     0x10FF   RAM
 .data                             16   R/W     0x1100     0x110F   RAM
 .abs_section_8                     1   N/I        0x8        0x8   .absSeg0
@@ -397,7 +397,7 @@ EEPROM_DATA                       10   R/W     0x1116     0x111F   RAM
 .vectSeg341_vect                   2     R     0xFFFE     0xFFFF   .vectSeg341
 
 Summary of section sizes per section type:
-READ_ONLY (R):         789 (dec:     1929)
+READ_ONLY (R):         78A (dec:     1930)
 READ_WRITE (R/W):      120 (dec:      288)
 NO_INIT (N/I):         190 (dec:      400)
 
@@ -806,22 +806,22 @@ MODULE:                 -- keyPad.asm.o --
 - PROCEDURES:
      initKeyPad                              308446       9       9       2   .text       
      pollReadKey                             30844F       F      15       6   .text       
-     prk_loop                                30845E      19      25       0   .text       
-     prk_endif1                              308477       3       3       0   .text       
-     prk_endif2                              308477       0       0       0   .text       
-     prk_endloop                             30847A       6       6       0   .text       
-     readKey                                 308480       3       3      11   .text       
-     RDK_DO                                  308483       6       6       0   .text       
-     RDK_LP1                                 308489      21      33       0   .text       
-     RDK_LP2                                 3084AA      15      21       0   .text       
-     readKeyCode                             3084BF      26      38       1   .text       
-     RKY_ENDIF1                              3084E5       3       3       0   .text       
-     RKY_ENDIF2                              3084E5       0       0       0   .text       
-     RKY_ENDIF3                              3084E5       0       0       0   .text       
-     translate                               3084E8       C      12       1   .text       
-     TR_LOOP                                 3084F4       A      10       0   .text       
-     TR_endif                                3084FE       7       7       0   .text       
-     TR_endwh                                308505       4       4       0   .text       
+     prk_loop                                30845E      1A      26       0   .text       
+     prk_endif1                              308478       3       3       0   .text       
+     prk_endif2                              308478       0       0       0   .text       
+     prk_endloop                             30847B       6       6       0   .text       
+     readKey                                 308481       3       3      12   .text       
+     RDK_DO                                  308484       6       6       0   .text       
+     RDK_LP1                                 30848A      21      33       0   .text       
+     RDK_LP2                                 3084AB      15      21       0   .text       
+     readKeyCode                             3084C0      26      38       1   .text       
+     RKY_ENDIF1                              3084E6       3       3       0   .text       
+     RKY_ENDIF2                              3084E6       0       0       0   .text       
+     RKY_ENDIF3                              3084E6       0       0       0   .text       
+     translate                               3084E9       C      12       1   .text       
+     TR_LOOP                                 3084F5       A      10       0   .text       
+     TR_endif                                3084FF       7       7       0   .text       
+     TR_endwh                                308506       4       4       0   .text       
 - VARIABLES:
      cnvTbl                                    C01F       2       2       1   .rodata     
      VAR00001                                  C021       2       2       0   .rodata     
@@ -841,20 +841,20 @@ MODULE:                 -- keyPad.asm.o --
      VAR00015                                  C03D       2       2       0   .rodata     
 MODULE:                 -- lcd.asm.o --
 - PROCEDURES:
-     lcd_init                                308509       A      10       2   .text       
-     lcdi1                                   308513      1E      30       0   .text       
-     data8                                   308531       C      12       0   .text       
-     set_lcd_addr                            30853D       E      14       2   .text       
-     clear_lcd                               30854B       C      12       0   .text       
-     type_lcd                                308557       3       3       2   .text       
-     next_char                               30855A       F      15       0   .text       
-     done                                    308569       2       2       0   .text       
-     write_instr_nibble                      30856B       B      11       3   .text       
-     win                                     308576       8       8       0   .text       
-     write_data_nibble                       30857E       B      11       2   .text       
-     wdn                                     308589       8       8       0   .text       
-     write_instr_byte                        308591       D      13       3   .text       
-     write_data_byte                         30859E       D      13       2   .text       
+     lcd_init                                30850A       A      10       2   .text       
+     lcdi1                                   308514      1E      30       0   .text       
+     data8                                   308532       C      12       0   .text       
+     set_lcd_addr                            30853E       E      14       2   .text       
+     clear_lcd                               30854C       C      12       0   .text       
+     type_lcd                                308558       3       3       2   .text       
+     next_char                               30855B       F      15       0   .text       
+     done                                    30856A       2       2       0   .text       
+     write_instr_nibble                      30856C       B      11       3   .text       
+     win                                     308577       8       8       0   .text       
+     write_data_nibble                       30857F       B      11       2   .text       
+     wdn                                     30858A       8       8       0   .text       
+     write_instr_byte                        308592       D      13       3   .text       
+     write_data_byte                         30859F       D      13       2   .text       
 - VARIABLES:
      VAR00001                                  C03F       1       1       1   .rodata     
      VAR00002                                  C040       1       1       0   .rodata     
@@ -871,25 +871,25 @@ MODULE:                 -- lcd.asm.o --
      VAR00013                                  C04B       1       1       0   .rodata     
 MODULE:                 -- lcdDisp.c.o --
 - PROCEDURES:
-     initLCD                                 3085AB       5       5       2   .text       
-     printLCDStr                             3085B0      12      18      16   .text       
+     initLCD                                 3085AC       5       5       2   .text       
+     printLCDStr                             3085B1      12      18      16   .text       
 - VARIABLES:
 MODULE:                 -- main.c.o --
 - PROCEDURES:
-     main                                    3085C2      18      24       2   .text       
+     main                                    3085C3      18      24       2   .text       
 - VARIABLES:
 MODULE:                 -- SegDisp.c.o --
 - PROCEDURES:
-     initDisp                                3085DA       1       1       2   .text       
-     clearDisp                               3085DB       6       6       8   .text       
-     setCharDisplay                          3085E1       8       8      14   .text       
-     segDisp                                 3085E9      47      71      12   .text       
+     initDisp                                3085DB       1       1       2   .text       
+     clearDisp                               3085DC       6       6       8   .text       
+     setCharDisplay                          3085E2       8       8      14   .text       
+     segDisp                                 3085EA      47      71      12   .text       
 - VARIABLES:
      NUM_TO_7_SEG_TBL                          1106       A      10       1   .data       
      dispChars                                 1112       4       4       2   .bss        
 MODULE:                 -- Start12.c.o --
 - PROCEDURES:
-     Init                                    308630      29      41       2   .text       
+     Init                                    308631      29      41       2   .text       
      _Startup                                  C000      15      21       0   .init       
 - VARIABLES:
      _startupData                              C015       6       6       3   .startData  
@@ -897,12 +897,12 @@ MODULE:                 -- Start12.c.o --
      __SEG_END_SSTACK                          1100       0       0       1               
 MODULE:                 -- switches.c.o --
 - PROCEDURES:
-     initSwitches                            308659       C      12       2   .text       
-     getSwStatus                             308665       4       4       4   .text       
+     initSwitches                            30865A       C      12       2   .text       
+     getSwStatus                             308666       4       4       4   .text       
 - VARIABLES:
 MODULE:                 -- CTYPE.C.o (ansibi.lib) --
 - PROCEDURES:
-     isdigit                                 308669       E      14      12   .text       
+     isdigit                                 30866A       E      14      12   .text       
 - VARIABLES:
 MODULE:                 -- rtshc12.c.o (ansibi.lib) --
 - PROCEDURES:
@@ -918,7 +918,7 @@ MODULE STATISTIC
   armed.c.o                                    4    594     51
   config.c.o                                   0    370     67
   delay.asm.o                                  4     58      0
-  keyPad.asm.o                                 0    195     32
+  keyPad.asm.o                                 0    196     32
   lcd.asm.o                                    0    162     13
   lcdDisp.c.o                                  0     23      0
   main.c.o                                     0     24      0
@@ -2060,47 +2060,47 @@ OBJECT LIST SORTED BY ADDRESS
      return_true_section                     308440       6       6       0   .text       
      initKeyPad                              308446       9       9       2   .text       
      pollReadKey                             30844F       F      15       6   .text       
-     prk_loop                                30845E      19      25       0   .text       
-     prk_endif2                              308477       0       0       0   .text       
-     prk_endif1                              308477       3       3       0   .text       
-     prk_endloop                             30847A       6       6       0   .text       
-     readKey                                 308480       3       3      11   .text       
-     RDK_DO                                  308483       6       6       0   .text       
-     RDK_LP1                                 308489      21      33       0   .text       
-     RDK_LP2                                 3084AA      15      21       0   .text       
-     readKeyCode                             3084BF      26      38       1   .text       
-     RKY_ENDIF3                              3084E5       0       0       0   .text       
-     RKY_ENDIF2                              3084E5       0       0       0   .text       
-     RKY_ENDIF1                              3084E5       3       3       0   .text       
-     translate                               3084E8       C      12       1   .text       
-     TR_LOOP                                 3084F4       A      10       0   .text       
-     TR_endif                                3084FE       7       7       0   .text       
-     TR_endwh                                308505       4       4       0   .text       
-     lcd_init                                308509       A      10       2   .text       
-     lcdi1                                   308513      1E      30       0   .text       
-     data8                                   308531       C      12       0   .text       
-     set_lcd_addr                            30853D       E      14       2   .text       
-     clear_lcd                               30854B       C      12       0   .text       
-     type_lcd                                308557       3       3       2   .text       
-     next_char                               30855A       F      15       0   .text       
-     done                                    308569       2       2       0   .text       
-     write_instr_nibble                      30856B       B      11       3   .text       
-     win                                     308576       8       8       0   .text       
-     write_data_nibble                       30857E       B      11       2   .text       
-     wdn                                     308589       8       8       0   .text       
-     write_instr_byte                        308591       D      13       3   .text       
-     write_data_byte                         30859E       D      13       2   .text       
-     initLCD                                 3085AB       5       5       2   .text       
-     printLCDStr                             3085B0      12      18      16   .text       
-     main                                    3085C2      18      24       2   .text       
-     initDisp                                3085DA       1       1       2   .text       
-     clearDisp                               3085DB       6       6       8   .text       
-     setCharDisplay                          3085E1       8       8      14   .text       
-     segDisp                                 3085E9      47      71      12   .text       
-     Init                                    308630      29      41       2   .text       
-     initSwitches                            308659       C      12       2   .text       
-     getSwStatus                             308665       4       4       4   .text       
-     isdigit                                 308669       E      14      12   .text       
+     prk_loop                                30845E      1A      26       0   .text       
+     prk_endif2                              308478       0       0       0   .text       
+     prk_endif1                              308478       3       3       0   .text       
+     prk_endloop                             30847B       6       6       0   .text       
+     readKey                                 308481       3       3      12   .text       
+     RDK_DO                                  308484       6       6       0   .text       
+     RDK_LP1                                 30848A      21      33       0   .text       
+     RDK_LP2                                 3084AB      15      21       0   .text       
+     readKeyCode                             3084C0      26      38       1   .text       
+     RKY_ENDIF3                              3084E6       0       0       0   .text       
+     RKY_ENDIF2                              3084E6       0       0       0   .text       
+     RKY_ENDIF1                              3084E6       3       3       0   .text       
+     translate                               3084E9       C      12       1   .text       
+     TR_LOOP                                 3084F5       A      10       0   .text       
+     TR_endif                                3084FF       7       7       0   .text       
+     TR_endwh                                308506       4       4       0   .text       
+     lcd_init                                30850A       A      10       2   .text       
+     lcdi1                                   308514      1E      30       0   .text       
+     data8                                   308532       C      12       0   .text       
+     set_lcd_addr                            30853E       E      14       2   .text       
+     clear_lcd                               30854C       C      12       0   .text       
+     type_lcd                                308558       3       3       2   .text       
+     next_char                               30855B       F      15       0   .text       
+     done                                    30856A       2       2       0   .text       
+     write_instr_nibble                      30856C       B      11       3   .text       
+     win                                     308577       8       8       0   .text       
+     write_data_nibble                       30857F       B      11       2   .text       
+     wdn                                     30858A       8       8       0   .text       
+     write_instr_byte                        308592       D      13       3   .text       
+     write_data_byte                         30859F       D      13       2   .text       
+     initLCD                                 3085AC       5       5       2   .text       
+     printLCDStr                             3085B1      12      18      16   .text       
+     main                                    3085C3      18      24       2   .text       
+     initDisp                                3085DB       1       1       2   .text       
+     clearDisp                               3085DC       6       6       8   .text       
+     setCharDisplay                          3085E2       8       8      14   .text       
+     segDisp                                 3085EA      47      71      12   .text       
+     Init                                    308631      29      41       2   .text       
+     initSwitches                            30865A       C      12       2   .text       
+     getSwStatus                             308666       4       4       4   .text       
+     isdigit                                 30866A       E      14      12   .text       
 
 *********************************************************************************************
 UNUSED-OBJECTS SECTION
@@ -2339,5 +2339,5 @@ STATISTIC SECTION
 ExeFile:
 --------
 Number of blocks to be downloaded: 7
-Total size of all blocks to be downloaded: 1929
+Total size of all blocks to be downloaded: 1930
 

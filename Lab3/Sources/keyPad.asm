@@ -82,7 +82,7 @@ cnvTbl  dc.b %11101110,'1'
 initKeyPad:
 	movb #%11110000,DDRA ; Data Direction Register
 	bset PUCR,%00000001 ; Enable pullups
-	rts
+	rtc
 
 ;-----------------------------------------------------------    
 ; Subroutine: ch <- pollReadKey
@@ -127,7 +127,7 @@ prk_if2:            ;
    ldab PORTA        ;                 if(PORTA != 0x0f)
    cmpb #$0f        ;                 {
    beq prk_endif2
-   jsr readKey      ;                     ch = readKey();
+   call readKey      ;                     ch = readKey();
    stab PRK_CH,SP   ;
    bra prk_endloop  ;                     break;
 prk_endif2:         ;                 }
@@ -139,7 +139,7 @@ prk_endloop:
    ; Restore stack and registers
    leas PRK_VARSIZE,SP
    pulx
-   rts
+   rtc
 
 ;-----------------------------------------------------------	
 ; Subroutine: ch <- readKey
@@ -189,7 +189,7 @@ RDK_LP2 ldab PORTA         ; while(PORTA!=0F)  /* wait */;
     jsr translate          ; ch = translate(code);
     leas RDK_VARSIZE,SP
     pula
-    rts		           ;  return(ch); 
+    rtc		           ;  return(ch); 
 
 ;-----------------------------------------------------------	
 ; Subroutine: key <- readKeyCode
