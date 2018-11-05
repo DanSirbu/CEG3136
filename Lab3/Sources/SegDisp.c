@@ -14,7 +14,7 @@ Description:  Segment Display Module
 #define CHAR_TO_NUM(a) (a - 0x30)
 
 static unsigned char dispChars[NUM_7_SEG_DISPLAYS];
-static unsigned char NUM_TO_7_SEG_TBL[10] = { 0x7E, 0x6, 0x5B, 0x4F, 0x66, 0x7E, 0x7E, 0x7E, 0x7E, 0x7E }; //TODO
+static unsigned char NUM_TO_7_SEG_TBL[10] = { 0x3F, 0x6, 0x5B, 0x4F, 0x66, 0x6D, 0x7D, 0x07, 0x7F, 0x67 }; //TODO
 /*---------------------------------------------
 Function: initDisp
 Description: initializes hardware for the 
@@ -69,9 +69,9 @@ void segDisp(void)
 	// Complete this function
 	int i;
 	for(i=0; i<4; i++) {
-        PTP = 0x70 | ~(1 << i);
+        PTP = 0xF0 | ~(1 << i);
         PORTB = NUM_TO_7_SEG_TBL[CHAR_TO_NUM(dispChars[i])];
-        delayms(100);
-  }
-  PTP = 0;
+        delayms_c(10);
+    }
+    PTP = 0xF0;
 }
