@@ -7,8 +7,6 @@ Description:  Delay module
 #include "mc9s12dg256.h"
 #include <stddef.h>
 #include "Delay.h"
-// Some definitions
-#define ONETENTH_MS 75	// number for timer to increment in 0.1 ms (75*1 1/3 micro-sec)
 // Global Variables
 static volatile int timeCounter; // Module global variable for blocking delay
 static volatile int *countPtr = NULL;  // Pointer to counter in other module 
