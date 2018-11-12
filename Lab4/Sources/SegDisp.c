@@ -13,10 +13,11 @@ Description:  Segment Display Module
 //Convert character to 7 segment display version
 #define CHAR_TO_NUM(a) (a - 0x30)
 
-#define SEG_UPDATE_INTERVAL (ONETENTH_MS * 100) // Every 10 ms
+#define SEG_UPDATE_INTERVAL (ONETENTH_MS * 50) // Every 10 ms
 
 static unsigned char dispChars[NUM_7_SEG_DISPLAYS];
 static unsigned char NUM_TO_7_SEG_TBL[10] = { 0x3F, 0x6, 0x5B, 0x4F, 0x66, 0x6D, 0x7D, 0x07, 0x7F, 0x67 }; //TODO
+volatile int i = 0;
 /*---------------------------------------------
 Function: initDisp
 Description: initializes hardware for the 
@@ -29,6 +30,9 @@ void initDisp(void)
     //PORT B connects to the Anode
     //PB0-PB7
     //PP0-PP3 controls common cathode
+    DDRB = 0xFF;
+    DDRP = 0xFF;
+    DDRJ = 0xFF;
     clearDisp();
 
     TIOS_IOS1 = 1; // set TC1 to output-compare
@@ -65,8 +69,17 @@ void setCharDisplay(char ch, byte dispNum)
 }
 
 void interrupt VectorNumber_Vtimch1 timer1_isr(void) {
-    turnOnDP(0);
-    TC1 = (TCNT + SEG_UPDATE_INTERVAL); //Update interrupt time
+   PTP = 0xF0 | ~(1 << i);
+      if(dispChars[i] == ' ') {
+              PORTB = 0x00;
+      } else if (dispChars[i] == 'A') {
+              PORTB = 0x77;
+      } else {
+      PORTB = NUM_TO_7_SEG_TBL[CHAR_TO_NUM(dispChars[i])];
+      }
+      i++;
+      i %= 4;
+    TC1 = (TC1 + SEG_UPDATE_INTERVAL); //Update interrupt time
 }
 /*---------------------------------------------
 Function: segDisp
@@ -80,18 +93,9 @@ void turnOnDP(int ignored)
 {
 	// Complete this function
     int i;
-    for(i=0; i<4; i++) {
-        PTP = 0xF0 | ~(1 << i);
-        if(dispChars[i] == ' ') {
-                PORTB = 0x0;
-        } else if (dispChars[i] == 'A') {
-                PORTB = 0x77;
-        } else {
-        PORTB = NUM_TO_7_SEG_TBL[CHAR_TO_NUM(dispChars[i])];
-        }
+       
         //delayms(1);
     }
-}
 void turnOffDP(int ignored)
 {
     PTP = 0xFF;
