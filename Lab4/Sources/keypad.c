@@ -3,6 +3,7 @@
 #include "keyPad.h"
 #include "delay.h"
 
+
 typedef struct {
     char keycode;
     char value;
@@ -38,11 +39,11 @@ static char volatile key_pressed;
 #define DEBOUNCE_TIME (ONETENTH_MS * 10)
 
 void initKeyPad(void) {
-    DDRA = 0b11110000 // Data Direction Register
-	PUCR |= 0b00000001 // Enable pullups
+    DDRA = 0b11110000; // Data Direction Register
+	PUCR |= 0b00000001; // Enable pullups
 
     TIOS_IOS2 = 1; // set to output-compare
-	TC2 = TCNT + SEG_UPDATE_INTERVAL; //Set for every 10 ms
+	TC2 = TCNT + DEBOUNCE_TIME; //Set for every 10 ms
     TIE_C2I = 1; // enable interrupt channel
 }
 

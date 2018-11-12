@@ -5,8 +5,8 @@ Description:  Segment Display Module
 
 #include <stdtypes.h>
 #include "mc9s12dg256.h"
+#include "delay.h"
 #include "SegDisp.h"
-#include "Delay_asm.h"
 
 // Prototypes for internal functions
 #define NUM_7_SEG_DISPLAYS 4
@@ -65,8 +65,8 @@ void setCharDisplay(char ch, byte dispNum)
 }
 
 void interrupt VectorNumber_Vtimch1 timer1_isr(void) {
-    turnOnDP();
-    TC1 = TCNT + SEG_UPDATE_INTERVAL; //Update interrupt time
+    turnOnDP(0);
+    TC1 = (TCNT + SEG_UPDATE_INTERVAL); //Update interrupt time
 }
 /*---------------------------------------------
 Function: segDisp
@@ -76,7 +76,7 @@ Description: Displays the codes in the code display table
              the characters on the displays for 5 millisecond 
              periods.
 -----------------------------------------------*/
-void turnOnDP(void) 
+void turnOnDP(int ignored) 
 {
 	// Complete this function
     int i;
@@ -92,7 +92,7 @@ void turnOnDP(void)
         //delayms(1);
     }
 }
-void turnOffDP()
+void turnOffDP(int ignored)
 {
     PTP = 0xFF;
 }
