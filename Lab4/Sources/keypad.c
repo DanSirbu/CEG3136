@@ -5,8 +5,8 @@
 
 
 typedef struct {
-    char keycode;
-    char value;
+    unsigned char keycode;
+    unsigned char value;
 } keycode_key_pair_t;
 
 #define NUM_KEYS 16
@@ -36,43 +36,52 @@ static char key_wait_release = 0;
 
 static char volatile key_pressed;
 
+static char volatile key_pressed_temp;
+
 #define DEBOUNCE_TIME (ONETENTH_MS * 10)
 
-void initKeyPad(void) {
+void initKeyPad(void)
+{
     DDRA = 0b11110000; // Data Direction Register
-	PUCR |= 0b00000001; // Enable pullups
+    PORTA  = 0x00; // initialize PORTA
+	  PUCR |= 0b00000001; // Enable pullups
 
     TIOS_IOS2 = 1; // set to output-compare
-	TC2 = TCNT + DEBOUNCE_TIME; //Set for every 10 ms
+	  TC2 = TCNT + DEBOUNCE_TIME; //Set for every 10 ms
     TIE_C2I = 1; // enable interrupt channel
 }
 
-void interrupt VectorNumber_Vtimch2 timer2_isr(void) {
+void interrupt VectorNumber_Vtimch2 timer2_isr(void) 
+{
+    int keyPressed;
+    int x;
+    volatile int temp_1;
     PORTA = 0x0F;
-    char keyPressed = PORTA != 0x0F;
+    keyPressed = PORTA != 0x0F;
 
     if(keyPressed) {
         if(!key_debounced) { //Wait for 1 cycle to debounce key
             key_debounced = 1;
         } else {
             key_wait_release = 1;
+            for(x = 0; x < NUM_KEYS; x++) {
+                PORTA = convertTbl[x].keycode;
+
+                //it means that key is pressed
+                temp_1 = PORTA;
+                if(PORTA == convertTbl[x].keycode) {
+                    key_pressed_temp = convertTbl[x].value;
+                    break;
+                }
+            }
         }
         key_release_debounced = 0;
     } else {
         //Key not pressed
         if(key_wait_release && key_release_debounced) {
             key_wait_release = 0;
-
-            int x;
-            for(int x = 0; x < NUM_KEYS; x++) {
-                PORTA = convertTbl[x].keycode;
-
-                //it means that key is pressed
-                if(PORTA == convertTbl[x].keycode) {
-                    key_pressed = convertTbl[x].value;
-                    break;
-                }
-            }
+            key_pressed = key_pressed_temp;
+            key_pressed_temp = NOKEY;
         } else {
             key_release_debounced = 1;
         }
@@ -82,7 +91,8 @@ void interrupt VectorNumber_Vtimch2 timer2_isr(void) {
     TC2 = TCNT + DEBOUNCE_TIME; //Update interrupt time
 }
 
-char pollReadKey(void) {
+char pollReadKey(void) 
+{
     if(key_pressed != NOKEY) {
         char temp = key_pressed;
         key_pressed = NOKEY;
@@ -91,10 +101,12 @@ char pollReadKey(void) {
     return NOKEY;
 }
 
-char readKey(void) {
+char readKey(void) 
+{
+    char temp;
     while(key_pressed == NOKEY); //Wait
 
-    char temp = key_pressed;
+    temp = key_pressed;
     key_pressed = NOKEY;
     return temp;
 }
