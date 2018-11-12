@@ -36,7 +36,7 @@ _startupData is allocated at 0xC03B and uses 6 Bytes
 extern struct _tagStartup {
   unsigned nofZeroOut     1
   _Range   pZeroOut       0x1100     65
-  _Copy    *toCopyDownBeg 0xC845
+  _Copy    *toCopyDownBeg 0xC84A
 } _startupData;
 
 *********************************************************************************************
@@ -47,8 +47,8 @@ Section Name                    Size  Type     From       To       Segment
 .startData                        10     R     0xC03B     0xC044   ROM_C000
 .rodata                           13     R     0xC045     0xC051   ROM_C000
 .rodata1                         150     R     0xC052     0xC0E7   ROM_C000
-.text                           1849     R     0xC0E8     0xC820   ROM_C000
-.copy                             50     R     0xC845     0xC876   ROM_C000
+.text                           1854     R     0xC0E8     0xC825   ROM_C000
+.copy                             50     R     0xC84A     0xC87B   ROM_C000
 .stack                           256   R/W     0x1000     0x10FF   RAM
 .data                             44   R/W     0x1100     0x112B   RAM
 EEPROM_DATA                       10   N/I      0x400      0x409   EEPROM
@@ -398,13 +398,13 @@ EEPROM_DATA                       10   N/I      0x400      0x409   EEPROM
 .abs_section_ffee                  2     R     0xFFEE     0xFFEF   .absSeg343
 .abs_section_ffea                  2     R     0xFFEA     0xFFEB   .absSeg344
 .bss                              19   R/W     0x112C     0x113E   RAM
-MyCode                            28     R     0xC821     0xC83C   ROM_C000
+MyCode                            28     R     0xC826     0xC841   ROM_C000
 .common                            2   R/W     0x113F     0x1140   RAM
-RUNTIME                            8     R     0xC83D     0xC844   ROM_C000
+RUNTIME                            8     R     0xC842     0xC849   ROM_C000
 .vectSeg345_vect                   2     R     0xFFFE     0xFFFF   .vectSeg345
 
 Summary of section sizes per section type:
-READ_ONLY (R):         881 (dec:     2177)
+READ_ONLY (R):         886 (dec:     2182)
 READ_WRITE (R/W):      141 (dec:      321)
 NO_INIT (N/I):         19A (dec:      410)
 
@@ -764,9 +764,9 @@ MODULE:                 -- mc9s12dg256.c.o --
      _CAN4TXTSR                                 2BE       2       2       0   .abs_section_2be
 MODULE:                 -- main.asm.o --
 - PROCEDURES:
-     asm_main                                  C821      12      18       0   MyCode      
-     PLL_init                                  C821       0       0       1   MyCode      
-     pll1                                      C833       A      10       0   MyCode      
+     asm_main                                  C826      12      18       0   MyCode      
+     PLL_init                                  C826       0       0       1   MyCode      
+     pll1                                      C838       A      10       0   MyCode      
 - VARIABLES:
 MODULE:                 -- Start12.c.o --
 - PROCEDURES:
@@ -782,7 +782,7 @@ MODULE:                 -- CTYPE.C.o (ansis.lib) --
 - VARIABLES:
 MODULE:                 -- rtshc12.c.o (ansis.lib) --
 - PROCEDURES:
-     _BSHL                                     C83D       8       8       1   RUNTIME     
+     _BSHL                                     C842       8       8       1   RUNTIME     
 - VARIABLES:
 MODULE:                 -- alarm.c.o --
 - PROCEDURES:
@@ -896,16 +896,16 @@ MODULE:                 -- delay.c.o --
 MODULE:                 -- keyPad.c.o --
 - PROCEDURES:
      initKeyPad                                C770      18      24       1   .text       
-     timer2_isr                                C788      81     129       1   .text       
-     pollReadKey                               C809       C      12       4   .text       
-     readKey                                   C815       C      12       4   .text       
+     timer2_isr                                C788      86     134       1   .text       
+     pollReadKey                               C80E       C      12       4   .text       
+     readKey                                   C81A       C      12       4   .text       
 - VARIABLES:
      convertTbl                                110C      20      32       2   .data       
      key_debounced                             113A       1       1       3   .bss        
      key_release_debounced                     113B       1       1       3   .bss        
      key_wait_release                          113C       1       1       3   .bss        
      key_pressed                               113D       1       1       7   .bss        
-     key_pressed_temp                          113E       1       1       3   .bss        
+     key_pressed_temp                          113E       1       1       4   .bss        
      _Vector_10                                FFEA       2       2       0   .abs_section_ffea
 
 *********************************************************************************************
@@ -926,7 +926,7 @@ MODULE STATISTIC
   lcdDisp.c.o                                  0    103      0
   siren.c.o                                    0     51      2
   delay.c.o                                    6     80      2
-  keyPad.c.o                                  37    177      2
+  keyPad.c.o                                  37    182      2
   other                                      256     12     50
 
 *********************************************************************************************
@@ -2014,7 +2014,7 @@ OBJECT LIST SORTED BY ADDRESS
      key_release_debounced                     113B       1       1       3   .bss        
      key_wait_release                          113C       1       1       3   .bss        
      key_pressed                               113D       1       1       7   .bss        
-     key_pressed_temp                          113E       1       1       3   .bss        
+     key_pressed_temp                          113E       1       1       4   .bss        
      displayTempFlag                           113F       2       2       4   .common     
      Init                                      C000      29      41       1   .init       
      _Startup                                  C029      12      18       0   .init       
@@ -2089,13 +2089,13 @@ OBJECT LIST SORTED BY ADDRESS
      delayms                                   C738       9       9       8   .text       
      tco_isr                                   C741      2F      47       1   .text       
      initKeyPad                                C770      18      24       1   .text       
-     timer2_isr                                C788      81     129       1   .text       
-     pollReadKey                               C809       C      12       4   .text       
-     readKey                                   C815       C      12       4   .text       
-     PLL_init                                  C821       0       0       1   MyCode      
-     asm_main                                  C821      12      18       0   MyCode      
-     pll1                                      C833       A      10       0   MyCode      
-     _BSHL                                     C83D       8       8       1   RUNTIME     
+     timer2_isr                                C788      86     134       1   .text       
+     pollReadKey                               C80E       C      12       4   .text       
+     readKey                                   C81A       C      12       4   .text       
+     PLL_init                                  C826       0       0       1   MyCode      
+     asm_main                                  C826      12      18       0   MyCode      
+     pll1                                      C838       A      10       0   MyCode      
+     _BSHL                                     C842       8       8       1   RUNTIME     
      _Vector_13                                FFE4       2       2       0   .abs_section_ffe4
      _Vector_10                                FFEA       2       2       0   .abs_section_ffea
      _Vector_9                                 FFEC       2       2       0   .abs_section_ffec
@@ -2128,21 +2128,21 @@ rtshc12.c.o (ansis.lib):
 *********************************************************************************************
 COPYDOWN SECTION
 ---------------------------------------------------------------------------------------------
-------- ROM-ADDRESS: 0xC845 ---- SIZE       4 ---
+------- ROM-ADDRESS: 0xC84A ---- SIZE       4 ---
 Filling bytes inserted
  002C1100
-------- ROM-ADDRESS: 0xC849 ---- RAM-ADDRESS: 0x1100 ---- SIZE       2 ---
+------- ROM-ADDRESS: 0xC84E ---- RAM-ADDRESS: 0x1100 ---- SIZE       2 ---
 Name of initialized Object : mult.5
  03E8
-------- ROM-ADDRESS: 0xC84B ---- RAM-ADDRESS: 0x1102 ---- SIZE      10 ---
+------- ROM-ADDRESS: 0xC850 ---- RAM-ADDRESS: 0x1102 ---- SIZE      10 ---
 Name of initialized Object : NUM_TO_7_SEG_TBL
  3F065B4F66 6D7D077F67
-------- ROM-ADDRESS: 0xC855 ---- RAM-ADDRESS: 0x110C ---- SIZE      32 ---
+------- ROM-ADDRESS: 0xC85A ---- RAM-ADDRESS: 0x110C ---- SIZE      32 ---
 Name of initialized Object : convertTbl
  EE31ED32EB 33E761DE34 DD35DB36D7
  62BE37BD38 BB39B7637E 2A7D307B23
  7764
-------- ROM-ADDRESS: 0xC875 ---- SIZE       2 ---
+------- ROM-ADDRESS: 0xC87A ---- SIZE       2 ---
 Filling bytes inserted
  0000
 
@@ -2205,9 +2205,9 @@ setCounter                USES countPtr
 delayms                   USES timeCounter 
 tco_isr                   USES isrCounter timeCounter countPtr _TC0 
 initKeyPad                USES _DDRAB _PORTAB _PUCR _TIOS _TCNT _TC2 _TIE 
-timer2_isr                USES _PORTAB key_debounced key_wait_release 
-                                convertTbl key_pressed_temp key_release_debounced 
-                                key_pressed _TCNT _TC2 
+timer2_isr                USES _PORTAB key_debounced key_pressed_temp 
+                                key_wait_release convertTbl key_release_debounced key_pressed 
+                                _TCNT _TC2 
 pollReadKey               USES key_pressed 
 readKey                   USES key_pressed 
 _Vector_13                USES timer5_isr 
@@ -2375,5 +2375,5 @@ STATISTIC SECTION
 ExeFile:
 --------
 Number of blocks to be downloaded: 11
-Total size of all blocks to be downloaded: 2177
+Total size of all blocks to be downloaded: 2182
 

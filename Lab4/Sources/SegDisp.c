@@ -13,7 +13,7 @@ Description:  Segment Display Module
 //Convert character to 7 segment display version
 #define CHAR_TO_NUM(a) (a - 0x30)
 
-#define SEG_UPDATE_INTERVAL (ONETENTH_MS * 50) // Every 10 ms
+#define SEG_UPDATE_INTERVAL (ONETENTH_MS * 10) // Every 1 ms
 
 static unsigned char dispChars[NUM_7_SEG_DISPLAYS];
 static unsigned char NUM_TO_7_SEG_TBL[10] = { 0x3F, 0x6, 0x5B, 0x4F, 0x66, 0x6D, 0x7D, 0x07, 0x7F, 0x67 }; //TODO
@@ -92,9 +92,8 @@ Description: Displays the codes in the code display table
 void turnOnDP(int ignored) 
 {
 	// Complete this function
-    int i;
-       
-        //delayms(1);
+  PTP = 0xF0;
+  PORTB = 0XFF;
     }
 void turnOffDP(int ignored)
 {

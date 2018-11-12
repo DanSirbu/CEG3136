@@ -62,7 +62,7 @@ void interrupt VectorNumber_Vtimch2 timer2_isr(void)
     if(keyPressed) {
         if(!key_debounced) { //Wait for 1 cycle to debounce key
             key_debounced = 1;
-        } else {
+        } else if (key_pressed_temp == NOKEY) {
             key_wait_release = 1;
             for(x = 0; x < NUM_KEYS; x++) {
                 PORTA = convertTbl[x].keycode;
