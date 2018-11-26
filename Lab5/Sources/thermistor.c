@@ -57,7 +57,14 @@ void initThermistor(void) {
     
 
     ATD0CTL2_ADPU = 1; //Power up the ADPU
-    //TODO wait 20 microseconds
+
+
+    //Wait 20 microseconds
+    //180 instructions for 1 microsecond
+    //20 * 180 = 3600
+    int x = 0;
+    for(x = 0; x < 3600; x++);
+
 
     /****INTERRUPT INITIALIZATION****/
     TIOS_IOS6 = 1; //Enable output mode
