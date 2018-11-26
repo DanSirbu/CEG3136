@@ -34,8 +34,7 @@ void initDisp(void)
     //PB0-PB7
     //PP0-PP3 controls common cathode
     DDRB = 0xFF;
-    DDRP = 0xFF;
-    DDRJ = 0xFF;
+    DDRP = 0x0F;
     clearDisp();
 
     TIOS_IOS1 = 1; // set TC1 to output-compare
@@ -49,10 +48,10 @@ Description: Clears all displays.
 -----------------------------------------------*/
 void clearDisp(void) 
 {
-    dispChars[0] = ' ';
-    dispChars[1] = ' ';
-    dispChars[2] = ' ';
-    dispChars[3] = ' ';
+    int x;
+    for(x = 0; x < 4; x++) {
+        dispChars[x] = 0;
+    }
 }
 
 
@@ -68,27 +67,29 @@ Description: Receives an ASCII character (ch)
 void setCharDisplay(char ch, byte dispNum) 
 {
 	// Complete this function
-    dispChars[dispNum] = ch;
+    unsigned char value = getDisplayValue(ch);
+    unsigned char dot_on = dispChars[dispNum] & 0x80;
+
+    dispChars[dispNum] = value | dot_on;
+}
+
+unsigned char getDisplayValue(char ch) {
+    if(dispChars[i] == ' ') {
+        return 0x00;
+    } else if (dispChars[i] == 'A') {
+        return 0x77;
+    } else {
+        return NUM_TO_7_SEG_TBL[CHAR_TO_NUM(dispChars[i])];
+    } else {
+        return 0x01; //Value not found debug code
+    }
 }
 
 void interrupt VectorNumber_Vtimch1 timer1_isr(void) {
-   PTP = 0xF0 | ~(1 << i);
-      if(dispChars[i] == ' ') {
-              PORTB = 0x00;
-      } else if (dispChars[i] == 'A') {
-              PORTB = 0x77;
-      } else {
-        PORTB = NUM_TO_7_SEG_TBL[CHAR_TO_NUM(dispChars[i])];
-      }
-      //Enable dot in display by setting bit 7
-      if(display_decimal_bitmask & 1 << i) {
-        PORTB |= 1 << 7;
-      } else {
-        PORTB &= ~(1 <<7); 
-      }
+    PTP = (PTP & 0xF0) | ~(1 << i);
+    PORTB = dispChars[i];
 
-      i++;
-      i %= 4;
+    ++i %= 4;
     TC1 = (TC1 + SEG_UPDATE_INTERVAL); //Update interrupt time
 }
 
@@ -97,13 +98,13 @@ void interrupt VectorNumber_Vtimch1 timer1_isr(void) {
 */
 void turnOnDP(int pos) 
 {
-    display_decimal_bitmask |= 1 << pos;
+    dispChars[pos] |= 0x80;
 }
 
 /*
- * Enables the dot at that position
+ * Disable the dot at that position
 */
 void turnOffDP(int pos)
 {
-    display_decimal_bitmask &= ~(1 << pos);
+    dispChars[pos] &= 0x3F;
 }
