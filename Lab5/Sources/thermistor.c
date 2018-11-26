@@ -37,20 +37,22 @@ static volatile int thermister_counter = 0;
 //trigger voltage 0.27
 
 
-#define THERMISTER_INTERVAL_1_TENTH 7500
+#define THERMISTER_INTERVAL_1_TENTH 75000
 
 void initThermistor(void) {
+    int x = 0;
     
     /****THERMISTER INITIALIZATION****/
+    
     ATD0CTL2 = 0;
     ATD0CTL3 = 0;
     ATD0CTL4 = 0;
 
     ATD0CTL2_AFFC = 1; //Enable fast clear, access to result register resets interrupt
-    ATD0CTL2_ASCIF = 1;//Enable interrupts
+    ATD0CTL2_ASCIE = 1;//Enable interrupts
+    
 
     ATD0CTL3_S1C = 1; //Single conversion
-    ATD0CTL3_FIFO = 0; //no FIFO
     ATD0CTL4 = 0b00010111; //500khz, 10 bits resolution
 
     //Right shift the output
@@ -62,37 +64,39 @@ void initThermistor(void) {
     //Wait 20 microseconds
     //180 instructions for 1 microsecond
     //20 * 180 = 3600
-    int x = 0;
     for(x = 0; x < 3600; x++);
 
-
+    
     /****INTERRUPT INITIALIZATION****/
-    TIOS_IOS6 = 1; //Enable output mode
-    TC6 = TCNT + THERMISTER_INTERVAL; //Set for every 10 ms
-    TIE_C6I = 1; //Enable interrupt 6
+    
+    TIOS_IOS3 = 1; //Enable output mode
+    TC3 = TCNT + THERMISTER_INTERVAL_1_TENTH; //Set for every 10 ms
+    TIE_C3I = 1; //Enable interrupt 3
+    
 }
-
-void interrupt VectorNumber_Vtimch6 thermister_isr(void) {
+ 
+void interrupt VectorNumber_Vtimch3 tc3_isr(void) {
     thermister_counter++;
     if(thermister_counter >= 10) { //Every 100 ms
         thermister_counter = 0;
 
-        ATD0CTL5 = 5; //Start conversion on Channel 5
+        ATD0CTL5 = 5|0x80; //Start conversion on Channel 5
     }
 
-    TC6 = TCNT + THERMISTER_INTERVAL_1_TENTH;
-    TFLG1 = ~(1 << 6); //Clear interrupt
+    TC3 = TCNT + THERMISTER_INTERVAL_1_TENTH;
+    TFLG1 &= 0b11110111; //Clear interrupt      
 }
-
+         
 //Happens when conversion is complete
 void interrupt VectorNumber_Vatd0 atd_isr(void) {
     raw_temperature = ATD0DR0;
 }
+
 
 /*
  * Returns the temperature in tenth of degree
  * Ex. 27 degrees = 270
 */
 int getTemp(void) {
-    return raw_temperature * 0.4887585532746823;
+    return raw_temperature * 4.8875855327468230694037145650049;
 }

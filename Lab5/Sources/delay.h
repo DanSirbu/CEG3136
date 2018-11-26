@@ -7,3 +7,4 @@ Description: Header file for Delay Module
 void initDelay(void);
 void delayms(int);
 void setCounter(volatile int *);
+#define ONETENTH_MS 75

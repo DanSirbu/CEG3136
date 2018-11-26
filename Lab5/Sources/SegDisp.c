@@ -83,6 +83,8 @@ void interrupt VectorNumber_Vtimch1 timer1_isr(void) {
       //Enable dot in display by setting bit 7
       if(display_decimal_bitmask & 1 << i) {
         PORTB |= 1 << 7;
+      } else {
+        PORTB &= ~(1 <<7); 
       }
 
       i++;
