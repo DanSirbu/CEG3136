@@ -1,5 +1,5 @@
-
-PROGRAM "C:\Users\mikem\Desktop\CEG3135B\CEG3136\Lab5\bin\HCS12_Serial_Monitor.abs"
+*** EVALUATION ***
+PROGRAM "Z:\dsirb066\Desktop\CEG3136-master\Lab5\bin\HCS12_Serial_Monitor.abs"
 
 *********************************************************************************************
 TARGET SECTION
@@ -40,8 +40,8 @@ Entry point: 0xC029 (_Startup)
 _startupData is allocated at 0xC03B and uses 6 Bytes
 extern struct _tagStartup {
   unsigned nofZeroOut     1
-  _Range   pZeroOut       0x1100     73
-  _Copy    *toCopyDownBeg 0xCB77
+  _Range   pZeroOut       0x1100     71
+  _Copy    *toCopyDownBeg 0xCB57
 } _startupData;
 
 *********************************************************************************************
@@ -52,8 +52,8 @@ Section Name                    Size  Type     From       To       Segment
 .startData                        10     R     0xC03B     0xC044   ROM_C000
 .rodata                           13     R     0xC045     0xC051   ROM_C000
 .rodata1                         150     R     0xC052     0xC0E7   ROM_C000
-.text                           2241     R     0xC0E8     0xC9A8   ROM_C000
-.copy                             51     R     0xCB77     0xCBA9   ROM_C000
+.text                           2220     R     0xC0E8     0xC993   ROM_C000
+.copy                             51     R     0xCB57     0xCB89   ROM_C000
 .stack                           256   R/W     0x1000     0x10FF   RAM
 .data                             46   R/W     0x1100     0x112D   RAM
 EEPROM_DATA                       10   N/I      0x400      0x409   EEPROM
@@ -405,15 +405,15 @@ EEPROM_DATA                       10   N/I      0x400      0x409   EEPROM
 .abs_section_ffe8                  2     R     0xFFE8     0xFFE9   .absSeg345
 .abs_section_ffd2                  2     R     0xFFD2     0xFFD3   .absSeg346
 .abs_section_ffea                  2     R     0xFFEA     0xFFEB   .absSeg347
-.bss                              25   R/W     0x112E     0x1146   RAM
-MyCode                            28     R     0xC9A9     0xC9C4   ROM_C000
-.common                            2   R/W     0x1147     0x1148   RAM
-RUNTIME                          434     R     0xC9C5     0xCB76   ROM_C000
+.bss                              23   R/W     0x112E     0x1144   RAM
+MyCode                            28     R     0xC994     0xC9AF   ROM_C000
+.common                            2   R/W     0x1145     0x1146   RAM
+RUNTIME                          423     R     0xC9B0     0xCB56   ROM_C000
 .vectSeg348_vect                   2     R     0xFFFE     0xFFFF   .vectSeg348
 
 Summary of section sizes per section type:
-READ_ONLY (R):         BBA (dec:     3002)
-READ_WRITE (R/W):      149 (dec:      329)
+READ_ONLY (R):         B9A (dec:     2970)
+READ_WRITE (R/W):      147 (dec:      327)
 NO_INIT (N/I):         19A (dec:      410)
 
 *********************************************************************************************
@@ -478,7 +478,7 @@ MODULE:                 -- mc9s12dg256.c.o --
      _TCTL4                                      4B       1       1       0   .abs_section_4b
      _TIE                                        4C       1       1       7   .abs_section_4c
      _TSCR2                                      4D       1       1       1   .abs_section_4d
-     _TFLG1                                      4E       1       1       1   .abs_section_4e
+     _TFLG1                                      4E       1       1       0   .abs_section_4e
      _TFLG2                                      4F       1       1       0   .abs_section_4f
      _PACTL                                      60       1       1       0   .abs_section_60
      _PAFLG                                      61       1       1       0   .abs_section_61
@@ -630,7 +630,7 @@ MODULE:                 -- mc9s12dg256.c.o --
      _PPSM                                      255       1       1       0   .abs_section_255
      _WOMM                                      256       1       1       0   .abs_section_256
      _MODRR                                     257       1       1       0   .abs_section_257
-     _PTP                                       258       1       1       7   .abs_section_258
+     _PTP                                       258       1       1       8   .abs_section_258
      _PTIP                                      259       1       1       0   .abs_section_259
      _DDRP                                      25A       1       1       2   .abs_section_25a
      _RDRP                                      25B       1       1       0   .abs_section_25b
@@ -648,7 +648,7 @@ MODULE:                 -- mc9s12dg256.c.o --
      _PIFH                                      267       1       1       0   .abs_section_267
      _PTJ                                       268       1       1       1   .abs_section_268
      _PTIJ                                      269       1       1       0   .abs_section_269
-     _DDRJ                                      26A       1       1       1   .abs_section_26a
+     _DDRJ                                      26A       1       1       0   .abs_section_26a
      _RDRJ                                      26B       1       1       0   .abs_section_26b
      _PERJ                                      26C       1       1       0   .abs_section_26c
      _PPSJ                                      26D       1       1       0   .abs_section_26d
@@ -711,14 +711,14 @@ MODULE:                 -- mc9s12dg256.c.o --
      _CAN4TXDSR7                                2BB       1       1       0   .abs_section_2bb
      _CAN4TXDLR                                 2BC       1       1       0   .abs_section_2bc
      _CAN4TXTBPR                                2BD       1       1       0   .abs_section_2bd
-     _PORTAB                                      0       2       2      10   .abs_section_0
+     _PORTAB                                      0       2       2       7   .abs_section_0
      _DDRAB                                       2       2       2       2   .abs_section_2
      _PARTID                                     1A       2       2       0   .abs_section_1a
-     _TCNT                                       44       2       2       9   .abs_section_44
+     _TCNT                                       44       2       2       8   .abs_section_44
      _TC0                                        50       2       2       3   .abs_section_50
      _TC1                                        52       2       2       3   .abs_section_52
      _TC2                                        54       2       2       2   .abs_section_54
-     _TC3                                        56       2       2       2   .abs_section_56
+     _TC3                                        56       2       2       3   .abs_section_56
      _TC4                                        58       2       2       0   .abs_section_58
      _TC5                                        5A       2       2       2   .abs_section_5a
      _TC6                                        5C       2       2       3   .abs_section_5c
@@ -772,9 +772,9 @@ MODULE:                 -- mc9s12dg256.c.o --
      _CAN4TXTSR                                 2BE       2       2       0   .abs_section_2be
 MODULE:                 -- main.asm.o --
 - PROCEDURES:
-     asm_main                                  C9A9      12      18       0   MyCode      
-     PLL_init                                  C9A9       0       0       1   MyCode      
-     pll1                                      C9BB       A      10       0   MyCode      
+     asm_main                                  C994      12      18       0   MyCode      
+     PLL_init                                  C994       0       0       1   MyCode      
+     pll1                                      C9A6       A      10       0   MyCode      
 - VARIABLES:
 MODULE:                 -- Start12.c.o --
 - PROCEDURES:
@@ -790,37 +790,36 @@ MODULE:                 -- CTYPE.C.o (ansis.lib) --
 - VARIABLES:
 MODULE:                 -- FCONV.C.o (ansis.lib) --
 - PROCEDURES:
-     F_TOLONGK                                 C9C5      33      51       1   RUNTIME     
-     F_FRLONGK                                 C9F8      1F      31       1   RUNTIME     
-     _FSFLOAT                                  CA17      12      18       1   RUNTIME     
-     _FSTRUNC                                  CA29      11      17       1   RUNTIME     
+     F_TOLONGK                                 C9B0      33      51       1   RUNTIME     
+     F_FRLONGK                                 C9E3      1F      31       1   RUNTIME     
+     _FSFLOAT                                  CA02      12      18       1   RUNTIME     
+     _FSTRUNC                                  CA14      11      17       1   RUNTIME     
 - VARIABLES:
 MODULE:                 -- FMUL.C.o (ansis.lib) --
 - PROCEDURES:
-     F_MULKL                                   CA3A      58      88       1   RUNTIME     
-     _FMUL                                     CA92      14      20       1   RUNTIME     
+     F_MULKL                                   CA25      58      88       1   RUNTIME     
+     _FMUL                                     CA7D      14      20       1   RUNTIME     
 - VARIABLES:
 MODULE:                 -- FREGS.C.o (ansis.lib) --
 - PROCEDURES:
-     F_PULK                                    CAA6      15      21       2   RUNTIME     
-     F_PULL                                    CABB      15      21       1   RUNTIME     
-     F_PSHK                                    CAD0      13      19       2   RUNTIME     
-     F_CLRK                                    CAE3       B      11       2   RUNTIME     
-     F_MAXK                                    CAEE       9       9       1   RUNTIME     
-     F_NORMK                                   CAF7      3E      62       1   RUNTIME     
+     F_PULK                                    CA91      15      21       2   RUNTIME     
+     F_PULL                                    CAA6      15      21       1   RUNTIME     
+     F_PSHK                                    CABB      13      19       2   RUNTIME     
+     F_CLRK                                    CACE       B      11       2   RUNTIME     
+     F_MAXK                                    CAD9       9       9       1   RUNTIME     
+     F_NORMK                                   CAE2      3E      62       1   RUNTIME     
 - VARIABLES:
 MODULE:                 -- rtshc12.c.o (ansis.lib) --
 - PROCEDURES:
-     _BSHL                                     CB35       8       8       1   RUNTIME     
-     _ISHL                                     CB3D       B      11       2   RUNTIME     
-     _NEG_P                                    CB48       F      15       1   RUNTIME     
-     _ILSEXT                                   CB57       7       7       1   RUNTIME     
+     _BSHL                                     CB20       8       8       1   RUNTIME     
+     _NEG_P                                    CB28       F      15       1   RUNTIME     
+     _ILSEXT                                   CB37       7       7       1   RUNTIME     
 - VARIABLES:
 MODULE:                 -- VREGS.C.o (ansis.lib) --
 - PROCEDURES:
-     L_NEGK                                    CB5E       7       7       2   RUNTIME     
-     L_PSHK                                    CB65       8       8       1   RUNTIME     
-     SL_PULK                                   CB6D       A      10       1   RUNTIME     
+     L_NEGK                                    CB3E       7       7       2   RUNTIME     
+     L_PSHK                                    CB45       8       8       1   RUNTIME     
+     SL_PULK                                   CB4D       A      10       1   RUNTIME     
 - VARIABLES:
 MODULE:                 -- alarm.c.o --
 - PROCEDURES:
@@ -834,7 +833,7 @@ MODULE:                 -- alarm.c.o --
      count.3                                   1100       2       2       3   .data       
      alarmCodes                                 400       A      10      11   EEPROM_DATA 
      _Vector_14                                FFE2       2       2       0   .abs_section_ffe2
-     displayTempFlag                           1147       2       2       6   .common     
+     displayTempFlag                           1145       2       2       6   .common     
 MODULE:                 -- armed.c.o --
 - PROCEDURES:
      enableAlarm                               C216      83     131       1   .text       
@@ -896,71 +895,71 @@ MODULE:                 -- lcd.asm.o --
      VAR00013                                  C051       1       1       0   .rodata     
 MODULE:                 -- SegDisp.c.o --
 - PROCEDURES:
-     initDisp                                  C6D4      1B      27       1   .text       
-     clearDisp                                 C6EF       A      10       5   .text       
-     setCharDisplay                            C6F9       8       8       6   .text       
-     timer1_isr                                C701      66     102       1   .text       
-     turnOnDP                                  C767      14      20       1   .text       
+     initDisp                                  C6D4      19      25       1   .text       
+     clearDisp                                 C6ED       E      14       5   .text       
+     setCharDisplay                            C6FB      1A      26       6   .text       
+     getDisplayValue                           C715      14      20       1   .text       
+     timer1_isr                                C729      38      56       1   .text       
+     turnOnDP                                  C761       8       8       1   .text       
 - VARIABLES:
      NUM_TO_7_SEG_TBL                          1104       A      10       1   .data       
-     display_decimal_bitmask                   1130       2       2       5   .bss        
-     i                                         1132       2       2       7   .bss        
-     dispChars                                 1134       4       4       4   .bss        
+     i                                         1130       2       2       6   .bss        
+     dispChars                                 1132       4       4       4   .bss        
      _Vector_9                                 FFEC       2       2       0   .abs_section_ffec
 MODULE:                 -- switches.c.o --
 - PROCEDURES:
-     initSwitches                              C77B       7       7       1   .text       
-     getSwStatus                               C782       4       4       2   .text       
+     initSwitches                              C769       7       7       1   .text       
+     getSwStatus                               C770       4       4       2   .text       
 - VARIABLES:
 MODULE:                 -- lcdDisp.c.o --
 - PROCEDURES:
-     initLCD                                   C786       3       3       1   .text       
-     printLCDStr                               C789      24      36       8   .text       
-     padLCDString                              C7AD      40      64       1   .text       
+     initLCD                                   C774       3       3       1   .text       
+     printLCDStr                               C777      24      36       8   .text       
+     padLCDString                              C79B      40      64       1   .text       
 - VARIABLES:
 MODULE:                 -- siren.c.o --
 - PROCEDURES:
-     initSiren                                 C7ED       4       4       1   .text       
-     turnOnSiren                               C7F1      1A      26       1   .text       
-     timer5_isr                                C80B       8       8       1   .text       
-     turnOffSiren                              C813       D      13       1   .text       
+     initSiren                                 C7DB       4       4       1   .text       
+     turnOnSiren                               C7DF      1A      26       1   .text       
+     timer5_isr                                C7F9       8       8       1   .text       
+     turnOffSiren                              C801       D      13       1   .text       
 - VARIABLES:
      _Vector_13                                FFE4       2       2       0   .abs_section_ffe4
 MODULE:                 -- delay.c.o --
 - PROCEDURES:
-     initDelay                                 C820      14      20       1   .text       
-     setCounter                                C834       4       4       4   .text       
-     delayms                                   C838      19      25       7   .text       
-     tco_isr                                   C851      2F      47       1   .text       
+     initDelay                                 C80E      14      20       1   .text       
+     setCounter                                C822       4       4       4   .text       
+     delayms                                   C826      19      25       7   .text       
+     tco_isr                                   C83F      2F      47       1   .text       
 - VARIABLES:
-     countPtr                                  1138       2       2       4   .bss        
-     timeCounter                               113A       2       2       4   .bss        
-     isrCounter                                113C       2       2       5   .bss        
+     countPtr                                  1136       2       2       4   .bss        
+     timeCounter                               1138       2       2       4   .bss        
+     isrCounter                                113A       2       2       5   .bss        
      _Vector_8                                 FFEE       2       2       0   .abs_section_ffee
 MODULE:                 -- thermistor.c.o --
 - PROCEDURES:
-     initThermistor                            C880      30      48       1   .text       
-     tc3_isr                                   C8B0      23      35       1   .text       
-     atd_isr                                   C8D3       6       6       1   .text       
-     getTemp                                   C8D9      1A      26       3   .text       
+     initThermistor                            C86E      30      48       1   .text       
+     tc3_isr                                   C89E      20      32       1   .text       
+     atd_isr                                   C8BE       6       6       1   .text       
+     getTemp                                   C8C4      1A      26       3   .text       
 - VARIABLES:
-     thermister_counter                        113E       2       2       4   .bss        
-     raw_temperature                           1140       2       2       2   .bss        
+     thermister_counter                        113C       2       2       4   .bss        
+     raw_temperature                           113E       2       2       2   .bss        
      _Vector_11                                FFE8       2       2       0   .abs_section_ffe8
      _Vector_22                                FFD2       2       2       0   .abs_section_ffd2
 MODULE:                 -- keyPad.c.o --
 - PROCEDURES:
-     initKeyPad                                C8F3      18      24       1   .text       
-     timer2_isr                                C90B      86     134       1   .text       
-     pollReadKey                               C991       C      12       4   .text       
-     readKey                                   C99D       C      12       4   .text       
+     initKeyPad                                C8DE      18      24       1   .text       
+     timer2_isr                                C8F6      86     134       1   .text       
+     pollReadKey                               C97C       C      12       4   .text       
+     readKey                                   C988       C      12       4   .text       
 - VARIABLES:
      convertTbl                                110E      20      32       2   .data       
-     key_debounced                             1142       1       1       3   .bss        
-     key_release_debounced                     1143       1       1       3   .bss        
-     key_wait_release                          1144       1       1       3   .bss        
-     key_pressed                               1145       1       1       7   .bss        
-     key_pressed_temp                          1146       1       1       4   .bss        
+     key_debounced                             1140       1       1       3   .bss        
+     key_release_debounced                     1141       1       1       3   .bss        
+     key_wait_release                          1142       1       1       3   .bss        
+     key_pressed                               1143       1       1       7   .bss        
+     key_pressed_temp                          1144       1       1       4   .bss        
      _Vector_10                                FFEA       2       2       0   .abs_section_ffea
 
 *********************************************************************************************
@@ -974,18 +973,18 @@ MODULE STATISTIC
   FCONV.C.o (ansis.lib)                        0    117      0
   FMUL.C.o (ansis.lib)                         0    108      0
   FREGS.C.o (ansis.lib)                        0    143      0
-  rtshc12.c.o (ansis.lib)                      0     41      0
+  rtshc12.c.o (ansis.lib)                      0     30      0
   VREGS.C.o (ansis.lib)                        0     25      0
   alarm.c.o                                   14    288     34
   armed.c.o                                    4    535     51
   config.c.o                                   0    513     67
   lcd.asm.o                                    0    166     13
-  SegDisp.c.o                                 18    167      2
+  SegDisp.c.o                                 16    149      2
   switches.c.o                                 0     11      0
   lcdDisp.c.o                                  0    103      0
   siren.c.o                                    0     51      2
   delay.c.o                                    6     96      2
-  thermistor.c.o                               4    115      4
+  thermistor.c.o                               4    112      4
   keyPad.c.o                                  37    182      2
   other                                      256     12     51
 
@@ -997,17 +996,17 @@ SECTION: ".text"
   isCodeValid triggerAlarm displayNum configCodes enterMstCode setcode 
   initCodes initEE writeToEE lcd_init lcdi1 data8 set_lcd_addr clear_lcd 
   type_lcd next_char done write_instr_nibble win write_data_nibble wdn 
-  write_instr_byte write_data_byte initDisp clearDisp setCharDisplay timer1_isr 
-  turnOnDP initSwitches getSwStatus initLCD printLCDStr padLCDString initSiren 
-  turnOnSiren timer5_isr turnOffSiren initDelay setCounter delayms tco_isr 
-  initThermistor tc3_isr atd_isr getTemp initKeyPad timer2_isr pollReadKey 
-  readKey 
+  write_instr_byte write_data_byte initDisp clearDisp setCharDisplay 
+  getDisplayValue timer1_isr turnOnDP initSwitches getSwStatus initLCD 
+  printLCDStr padLCDString initSiren turnOnSiren timer5_isr turnOffSiren 
+  initDelay setCounter delayms tco_isr initThermistor tc3_isr atd_isr getTemp 
+  initKeyPad timer2_isr pollReadKey readKey 
 SECTION: ".data"
   count.3 mult.5 NUM_TO_7_SEG_TBL convertTbl 
 SECTION: ".bss"
-  alarmCode.6 display_decimal_bitmask i dispChars countPtr timeCounter 
-  isrCounter thermister_counter raw_temperature key_debounced 
-  key_release_debounced key_wait_release key_pressed key_pressed_temp 
+  alarmCode.6 i dispChars countPtr timeCounter isrCounter thermister_counter 
+  raw_temperature key_debounced key_release_debounced key_wait_release 
+  key_pressed key_pressed_temp 
 SECTION: ".init"
   Init _Startup 
 SECTION: ".rodata"
@@ -1708,7 +1707,7 @@ SECTION: ".common"
   displayTempFlag 
 SECTION: "RUNTIME"
   F_TOLONGK F_FRLONGK _FSFLOAT _FSTRUNC F_MULKL _FMUL F_PULK F_PULL F_PSHK 
-  F_CLRK F_MAXK F_NORMK _BSHL _ISHL _NEG_P _ILSEXT L_NEGK L_PSHK SL_PULK 
+  F_CLRK F_MAXK F_NORMK _BSHL _NEG_P _ILSEXT L_NEGK L_PSHK SL_PULK 
 SECTION: ".abs_section_ffe2"
   _Vector_14 
 SECTION: ".abs_section_ffec"
@@ -1728,7 +1727,7 @@ SECTION: ".abs_section_ffea"
 OBJECT LIST SORTED BY ADDRESS
      Name                                      Addr   hSize   dSize     Ref    Section   RLIB
 ---------------------------------------------------------------------------------------------
-     _PORTAB                                      0       2       2      10   .abs_section_0
+     _PORTAB                                      0       2       2       7   .abs_section_0
      _DDRAB                                       2       2       2       2   .abs_section_2
      _PORTE                                       8       1       1       0   .abs_section_8
      _DDRE                                        9       1       1       0   .abs_section_9
@@ -1772,7 +1771,7 @@ OBJECT LIST SORTED BY ADDRESS
      _CFORC                                      41       1       1       2   .abs_section_41
      _OC7M                                       42       1       1       0   .abs_section_42
      _OC7D                                       43       1       1       0   .abs_section_43
-     _TCNT                                       44       2       2       9   .abs_section_44
+     _TCNT                                       44       2       2       8   .abs_section_44
      _TSCR1                                      46       1       1       1   .abs_section_46
      _TTOV                                       47       1       1       0   .abs_section_47
      _TCTL1                                      48       1       1       6   .abs_section_48
@@ -1781,12 +1780,12 @@ OBJECT LIST SORTED BY ADDRESS
      _TCTL4                                      4B       1       1       0   .abs_section_4b
      _TIE                                        4C       1       1       7   .abs_section_4c
      _TSCR2                                      4D       1       1       1   .abs_section_4d
-     _TFLG1                                      4E       1       1       1   .abs_section_4e
+     _TFLG1                                      4E       1       1       0   .abs_section_4e
      _TFLG2                                      4F       1       1       0   .abs_section_4f
      _TC0                                        50       2       2       3   .abs_section_50
      _TC1                                        52       2       2       3   .abs_section_52
      _TC2                                        54       2       2       2   .abs_section_54
-     _TC3                                        56       2       2       2   .abs_section_56
+     _TC3                                        56       2       2       3   .abs_section_56
      _TC4                                        58       2       2       0   .abs_section_58
      _TC5                                        5A       2       2       2   .abs_section_5a
      _TC6                                        5C       2       2       3   .abs_section_5c
@@ -1986,7 +1985,7 @@ OBJECT LIST SORTED BY ADDRESS
      _PPSM                                      255       1       1       0   .abs_section_255
      _WOMM                                      256       1       1       0   .abs_section_256
      _MODRR                                     257       1       1       0   .abs_section_257
-     _PTP                                       258       1       1       7   .abs_section_258
+     _PTP                                       258       1       1       8   .abs_section_258
      _PTIP                                      259       1       1       0   .abs_section_259
      _DDRP                                      25A       1       1       2   .abs_section_25a
      _RDRP                                      25B       1       1       0   .abs_section_25b
@@ -2004,7 +2003,7 @@ OBJECT LIST SORTED BY ADDRESS
      _PIFH                                      267       1       1       0   .abs_section_267
      _PTJ                                       268       1       1       1   .abs_section_268
      _PTIJ                                      269       1       1       0   .abs_section_269
-     _DDRJ                                      26A       1       1       1   .abs_section_26a
+     _DDRJ                                      26A       1       1       0   .abs_section_26a
      _RDRJ                                      26B       1       1       0   .abs_section_26b
      _PERJ                                      26C       1       1       0   .abs_section_26c
      _PPSJ                                      26D       1       1       0   .abs_section_26d
@@ -2075,20 +2074,19 @@ OBJECT LIST SORTED BY ADDRESS
      NUM_TO_7_SEG_TBL                          1104       A      10       1   .data       
      convertTbl                                110E      20      32       2   .data       
      alarmCode.6                               112E       2       2       4   .bss        
-     display_decimal_bitmask                   1130       2       2       5   .bss        
-     i                                         1132       2       2       7   .bss        
-     dispChars                                 1134       4       4       4   .bss        
-     countPtr                                  1138       2       2       4   .bss        
-     timeCounter                               113A       2       2       4   .bss        
-     isrCounter                                113C       2       2       5   .bss        
-     thermister_counter                        113E       2       2       4   .bss        
-     raw_temperature                           1140       2       2       2   .bss        
-     key_debounced                             1142       1       1       3   .bss        
-     key_release_debounced                     1143       1       1       3   .bss        
-     key_wait_release                          1144       1       1       3   .bss        
-     key_pressed                               1145       1       1       7   .bss        
-     key_pressed_temp                          1146       1       1       4   .bss        
-     displayTempFlag                           1147       2       2       6   .common     
+     i                                         1130       2       2       6   .bss        
+     dispChars                                 1132       4       4       4   .bss        
+     countPtr                                  1136       2       2       4   .bss        
+     timeCounter                               1138       2       2       4   .bss        
+     isrCounter                                113A       2       2       5   .bss        
+     thermister_counter                        113C       2       2       4   .bss        
+     raw_temperature                           113E       2       2       2   .bss        
+     key_debounced                             1140       1       1       3   .bss        
+     key_release_debounced                     1141       1       1       3   .bss        
+     key_wait_release                          1142       1       1       3   .bss        
+     key_pressed                               1143       1       1       7   .bss        
+     key_pressed_temp                          1144       1       1       4   .bss        
+     displayTempFlag                           1145       2       2       6   .common     
      Init                                      C000      29      41       1   .init       
      _Startup                                  C029      12      18       0   .init       
      VAR00001                                  C045       1       1       1   .rodata     
@@ -2146,54 +2144,54 @@ OBJECT LIST SORTED BY ADDRESS
      wdn                                       C6B2       8       8       0   .text       
      write_instr_byte                          C6BA       D      13       3   .text       
      write_data_byte                           C6C7       D      13       2   .text       
-     initDisp                                  C6D4      1B      27       1   .text       
-     clearDisp                                 C6EF       A      10       5   .text       
-     setCharDisplay                            C6F9       8       8       6   .text       
-     timer1_isr                                C701      66     102       1   .text       
-     turnOnDP                                  C767      14      20       1   .text       
-     initSwitches                              C77B       7       7       1   .text       
-     getSwStatus                               C782       4       4       2   .text       
-     initLCD                                   C786       3       3       1   .text       
-     printLCDStr                               C789      24      36       8   .text       
-     padLCDString                              C7AD      40      64       1   .text       
-     initSiren                                 C7ED       4       4       1   .text       
-     turnOnSiren                               C7F1      1A      26       1   .text       
-     timer5_isr                                C80B       8       8       1   .text       
-     turnOffSiren                              C813       D      13       1   .text       
-     initDelay                                 C820      14      20       1   .text       
-     setCounter                                C834       4       4       4   .text       
-     delayms                                   C838      19      25       7   .text       
-     tco_isr                                   C851      2F      47       1   .text       
-     initThermistor                            C880      30      48       1   .text       
-     tc3_isr                                   C8B0      23      35       1   .text       
-     atd_isr                                   C8D3       6       6       1   .text       
-     getTemp                                   C8D9      1A      26       3   .text       
-     initKeyPad                                C8F3      18      24       1   .text       
-     timer2_isr                                C90B      86     134       1   .text       
-     pollReadKey                               C991       C      12       4   .text       
-     readKey                                   C99D       C      12       4   .text       
-     PLL_init                                  C9A9       0       0       1   MyCode      
-     asm_main                                  C9A9      12      18       0   MyCode      
-     pll1                                      C9BB       A      10       0   MyCode      
-     F_TOLONGK                                 C9C5      33      51       1   RUNTIME     
-     F_FRLONGK                                 C9F8      1F      31       1   RUNTIME     
-     _FSFLOAT                                  CA17      12      18       1   RUNTIME     
-     _FSTRUNC                                  CA29      11      17       1   RUNTIME     
-     F_MULKL                                   CA3A      58      88       1   RUNTIME     
-     _FMUL                                     CA92      14      20       1   RUNTIME     
-     F_PULK                                    CAA6      15      21       2   RUNTIME     
-     F_PULL                                    CABB      15      21       1   RUNTIME     
-     F_PSHK                                    CAD0      13      19       2   RUNTIME     
-     F_CLRK                                    CAE3       B      11       2   RUNTIME     
-     F_MAXK                                    CAEE       9       9       1   RUNTIME     
-     F_NORMK                                   CAF7      3E      62       1   RUNTIME     
-     _BSHL                                     CB35       8       8       1   RUNTIME     
-     _ISHL                                     CB3D       B      11       2   RUNTIME     
-     _NEG_P                                    CB48       F      15       1   RUNTIME     
-     _ILSEXT                                   CB57       7       7       1   RUNTIME     
-     L_NEGK                                    CB5E       7       7       2   RUNTIME     
-     L_PSHK                                    CB65       8       8       1   RUNTIME     
-     SL_PULK                                   CB6D       A      10       1   RUNTIME     
+     initDisp                                  C6D4      19      25       1   .text       
+     clearDisp                                 C6ED       E      14       5   .text       
+     setCharDisplay                            C6FB      1A      26       6   .text       
+     getDisplayValue                           C715      14      20       1   .text       
+     timer1_isr                                C729      38      56       1   .text       
+     turnOnDP                                  C761       8       8       1   .text       
+     initSwitches                              C769       7       7       1   .text       
+     getSwStatus                               C770       4       4       2   .text       
+     initLCD                                   C774       3       3       1   .text       
+     printLCDStr                               C777      24      36       8   .text       
+     padLCDString                              C79B      40      64       1   .text       
+     initSiren                                 C7DB       4       4       1   .text       
+     turnOnSiren                               C7DF      1A      26       1   .text       
+     timer5_isr                                C7F9       8       8       1   .text       
+     turnOffSiren                              C801       D      13       1   .text       
+     initDelay                                 C80E      14      20       1   .text       
+     setCounter                                C822       4       4       4   .text       
+     delayms                                   C826      19      25       7   .text       
+     tco_isr                                   C83F      2F      47       1   .text       
+     initThermistor                            C86E      30      48       1   .text       
+     tc3_isr                                   C89E      20      32       1   .text       
+     atd_isr                                   C8BE       6       6       1   .text       
+     getTemp                                   C8C4      1A      26       3   .text       
+     initKeyPad                                C8DE      18      24       1   .text       
+     timer2_isr                                C8F6      86     134       1   .text       
+     pollReadKey                               C97C       C      12       4   .text       
+     readKey                                   C988       C      12       4   .text       
+     PLL_init                                  C994       0       0       1   MyCode      
+     asm_main                                  C994      12      18       0   MyCode      
+     pll1                                      C9A6       A      10       0   MyCode      
+     F_TOLONGK                                 C9B0      33      51       1   RUNTIME     
+     F_FRLONGK                                 C9E3      1F      31       1   RUNTIME     
+     _FSFLOAT                                  CA02      12      18       1   RUNTIME     
+     _FSTRUNC                                  CA14      11      17       1   RUNTIME     
+     F_MULKL                                   CA25      58      88       1   RUNTIME     
+     _FMUL                                     CA7D      14      20       1   RUNTIME     
+     F_PULK                                    CA91      15      21       2   RUNTIME     
+     F_PULL                                    CAA6      15      21       1   RUNTIME     
+     F_PSHK                                    CABB      13      19       2   RUNTIME     
+     F_CLRK                                    CACE       B      11       2   RUNTIME     
+     F_MAXK                                    CAD9       9       9       1   RUNTIME     
+     F_NORMK                                   CAE2      3E      62       1   RUNTIME     
+     _BSHL                                     CB20       8       8       1   RUNTIME     
+     _NEG_P                                    CB28       F      15       1   RUNTIME     
+     _ILSEXT                                   CB37       7       7       1   RUNTIME     
+     L_NEGK                                    CB3E       7       7       2   RUNTIME     
+     L_PSHK                                    CB45       8       8       1   RUNTIME     
+     SL_PULK                                   CB4D       A      10       1   RUNTIME     
      _Vector_22                                FFD2       2       2       0   .abs_section_ffd2
      _Vector_14                                FFE2       2       2       0   .abs_section_ffe2
      _Vector_13                                FFE4       2       2       0   .abs_section_ffe4
@@ -2216,9 +2214,9 @@ FMUL.C.o (ansis.lib):
 FREGS.C.o (ansis.lib):
   F_STAL F_TLK F_TKL F_XGKL F_CLRL 
 rtshc12.c.o (ansis.lib):
-  _BSHRS _BSHRU _BDIVMODU _BDIVMODS _ISHRU _ISHRS _LSHL _LSHRU _LSHRS _LADD 
-  _LSUB _LAND _LOR _LXOR _LCMP _LCMP_P _LCMP_PP _LNEG _LCOM _LINC _LDEC _LMUL 
-  _LMULU16x32 _LMULS16x32 _lDivMod _LDIVU _LDIVS _LMODU _LMODS _COPY 
+  _BSHRS _BSHRU _BDIVMODU _BDIVMODS _ISHL _ISHRU _ISHRS _LSHL _LSHRU _LSHRS 
+  _LADD _LSUB _LAND _LOR _LXOR _LCMP _LCMP_P _LCMP_PP _LNEG _LCOM _LINC _LDEC 
+  _LMUL _LMULU16x32 _LMULS16x32 _lDivMod _LDIVU _LDIVS _LMODU _LMODS _COPY 
   _CASE_DIRECT _CASE_DIRECT_BYTE _CASE_CHECKED _CASE_CHECKED_BYTE _CASE_SEARCH 
   _CASE_SEARCH_BYTE _CASE_SEARCH_8 _CASE_SEARCH_8_BYTE _FCALL _FPCMP 
 VREGS.C.o (ansis.lib):
@@ -2232,28 +2230,30 @@ CTYPE.C.o (ansis.lib):
   _ctype 
 rtshc12.c.o (ansis.lib):
   _PowOfTwo_8 _PowOfTwo_16 _PowOfTwo_32 errno 
+SegDisp.c.o:
+  display_decimal_bitmask 
 
 *********************************************************************************************
 COPYDOWN SECTION
 ---------------------------------------------------------------------------------------------
-------- ROM-ADDRESS: 0xCB77 ---- SIZE       4 ---
+------- ROM-ADDRESS: 0xCB57 ---- SIZE       4 ---
 Filling bytes inserted
  002D1101
-------- ROM-ADDRESS: 0xCB7B ---- RAM-ADDRESS: 0x1101 ---- SIZE       1 ---
+------- ROM-ADDRESS: 0xCB5B ---- RAM-ADDRESS: 0x1101 ---- SIZE       1 ---
 Name of initialized Object : count.3:1
  14
-------- ROM-ADDRESS: 0xCB7C ---- RAM-ADDRESS: 0x1102 ---- SIZE       2 ---
+------- ROM-ADDRESS: 0xCB5C ---- RAM-ADDRESS: 0x1102 ---- SIZE       2 ---
 Name of initialized Object : mult.5
  03E8
-------- ROM-ADDRESS: 0xCB7E ---- RAM-ADDRESS: 0x1104 ---- SIZE      10 ---
+------- ROM-ADDRESS: 0xCB5E ---- RAM-ADDRESS: 0x1104 ---- SIZE      10 ---
 Name of initialized Object : NUM_TO_7_SEG_TBL
  3F065B4F66 6D7D077F67
-------- ROM-ADDRESS: 0xCB88 ---- RAM-ADDRESS: 0x110E ---- SIZE      32 ---
+------- ROM-ADDRESS: 0xCB68 ---- RAM-ADDRESS: 0x110E ---- SIZE      32 ---
 Name of initialized Object : convertTbl
  EE31ED32EB 33E761DE34 DD35DB36D7
  62BE37BD38 BB39B7637E 2A7D307B23
  7764
-------- ROM-ADDRESS: 0xCBA8 ---- SIZE       2 ---
+------- ROM-ADDRESS: 0xCB88 ---- SIZE       2 ---
 Filling bytes inserted
  0000
 
@@ -2302,13 +2302,12 @@ clear_lcd                 USES write_instr_byte delayms
 next_char                 USES write_data_byte delayms 
 write_instr_byte          USES write_instr_nibble 
 write_data_byte           USES write_data_nibble 
-initDisp                  USES _DDRAB _DDRP _DDRJ clearDisp _TIOS _TIE _TCNT 
-                                _TC1 
+initDisp                  USES _DDRAB _DDRP clearDisp _TIOS _TIE _TCNT _TC1 
 clearDisp                 USES dispChars 
-setCharDisplay            USES dispChars 
-timer1_isr                USES i _BSHL _PTP _PORTAB NUM_TO_7_SEG_TBL _ISHL 
-                                display_decimal_bitmask _TC1 dispChars 
-turnOnDP                  USES _ISHL display_decimal_bitmask 
+setCharDisplay            USES getDisplayValue dispChars 
+getDisplayValue           USES NUM_TO_7_SEG_TBL 
+timer1_isr                USES _PTP i _BSHL dispChars _PORTAB _TC1 
+turnOnDP                  USES dispChars 
 initSwitches              USES _DDRH _PERH 
 getSwStatus               USES _PTH 
 initLCD                   USES lcd_init 
@@ -2322,7 +2321,7 @@ setCounter                USES countPtr
 delayms                   USES timeCounter 
 tco_isr                   USES isrCounter timeCounter countPtr _TC0 
 initThermistor            USES _ATD0CTL23 _ATD0CTL45 _TIOS _TCNT _TC3 _TIE 
-tc3_isr                   USES thermister_counter _ATD0CTL45 _TCNT _TC3 _TFLG1 
+tc3_isr                   USES thermister_counter _ATD0CTL45 _TC3 
 atd_isr                   USES _ATD0DR0 raw_temperature 
 getTemp                   USES raw_temperature _ILSEXT _FSFLOAT _FMUL _FSTRUNC 
 initKeyPad                USES _DDRAB _PORTAB _PUCR _TIOS _TCNT _TC2 _TIE 
@@ -2440,7 +2439,9 @@ DEPENDENCY TREE
  |  |  +- displayNum          
  |  |  |  | 
  |  |  |  +- setCharDisplay      
- |  |  |       
+ |  |  |     | 
+ |  |  |     +- getDisplayValue     
+ |  |  |          
  |  |  +- pollReadKey          (see above)
  |  |  |  
  |  |  +- isdigit              (see above)
@@ -2544,17 +2545,13 @@ DEPENDENCY TREE
        +- setCharDisplay       (see above)
        |  
        +- turnOnDP            
-          | 
-          +- _ISHL               
-               
+            
  _Vector_9           
  | 
  +- timer1_isr          
     | 
     +- _BSHL               
-    |    
-    +- _ISHL                (see above)
-       
+         
  _Vector_13          
  | 
  +- timer5_isr          
@@ -2581,6 +2578,6 @@ STATISTIC SECTION
 
 ExeFile:
 --------
-Number of blocks to be downloaded: 15
-Total size of all blocks to be downloaded: 3002
+Number of blocks to be downloaded: 14
+Total size of all blocks to be downloaded: 2970
 
