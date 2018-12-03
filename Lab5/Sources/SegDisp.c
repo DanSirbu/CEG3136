@@ -9,6 +9,8 @@ Description:  Segment Display Module
 #include "SegDisp.h"
 
 // Prototypes for internal functions
+unsigned char getDisplayValue(char ch);
+
 #define NUM_7_SEG_DISPLAYS 4
 //Convert character to 7 segment display version
 #define CHAR_TO_NUM(a) (a - 0x30)
@@ -74,22 +76,21 @@ void setCharDisplay(char ch, byte dispNum)
 }
 
 unsigned char getDisplayValue(char ch) {
-    if(dispChars[i] == ' ') {
-        return 0x00;
-    } else if (dispChars[i] == 'A') {
-        return 0x77;
+    if(ch == ' ') {
+        return (unsigned char) 0x00;
+    } else if (ch == 'A') {
+        return (unsigned char)0x77;
     } else {
-        return NUM_TO_7_SEG_TBL[CHAR_TO_NUM(dispChars[i])];
-    } else {
-        return 0x01; //Value not found debug code
+        return (unsigned char) NUM_TO_7_SEG_TBL[CHAR_TO_NUM(ch)];
     }
 }
 
 void interrupt VectorNumber_Vtimch1 timer1_isr(void) {
     PTP = (PTP & 0xF0) | ~(1 << i);
     PORTB = dispChars[i];
-
-    ++i %= 4;
+    
+    i++;
+    i = i % 4;
     TC1 = (TC1 + SEG_UPDATE_INTERVAL); //Update interrupt time
 }
 
